@@ -13,9 +13,10 @@ let aiBlocked = false;
 let playbackDone: Promise<void> = Promise.resolve();
 let finishPlayback: (() => void) | null = null;
 
-/** الصوت مخصص لنسخة ويندوز/سطح المكتب فقط؛ يُعطَّل تماماً على الأندرويد والهواتف. */
+/** الصوت يعمل في سطح المكتب وتطبيقات تمكين المحلية (ويندوز وأندرويد)، ويُعطَّل في متصفحات الهواتف فقط. */
 export function isVoicePlatform() {
   if (typeof navigator === "undefined") return false;
+  if (isOfflineDesktop()) return true;
   const ua = navigator.userAgent || "";
   if (/Android|iPhone|iPad|iPod|Mobile|wv\)/i.test(ua)) return false;
   return true;
