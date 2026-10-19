@@ -1461,7 +1461,7 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
       {/* الوسط: شعار تمكين */}
       <div className="app-topbar-center hidden justify-center lg:flex"><TamkeenBrand /></div>
       {/* يسار: الشعار النصي وأدوات الشاشة وزر القائمة */}
-      <div className="flex shrink-0 items-center justify-end gap-0.5 sm:gap-3 lg:min-w-0 [&_button]:!bg-transparent">
+      <div className="flex shrink-0 items-center justify-end gap-0.5 sm:gap-3 lg:min-w-0 lg:overflow-hidden [&_button]:!bg-transparent">
         <Button variant="presentation" size="presentation" type="button" onClick={onSettings} aria-label="الإعدادات" title="الإعدادات" className="grid size-8 place-items-center rounded-full transition hover:bg-muted lg:hidden"><Settings className="size-5" /></Button>
         {isAdmin && (
           <Button variant="presentation" size="presentation" type="button" onClick={onExitAdmin} className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-xs font-bold text-foreground transition hover:bg-muted" dir="ltr">
