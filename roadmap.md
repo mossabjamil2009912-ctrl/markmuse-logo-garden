@@ -1,5 +1,11 @@
 # Roadmap
 
+## Current request: updated Windows download (2026-10-19)
+- [x] Package the current fullscreen frameless shell, bundled narration and internal update button as v2.
+- [x] Pass six offline/update tests and verify local settings/update UI without external navigation.
+- [x] Inspect ZIP integrity and verify the complete public download against its SHA-256 checksum.
+- [ ] Verify the native executable and real update activation on Windows (requires a Windows device and published release inventory).
+
 ## Current request: Android APK with the same offline agreement
 - [x] Package the existing app and local media in an Android shell with stable local storage.
 - [x] Implement checksum-verified atomic published snapshots for offline use; release integrity tests passed.
