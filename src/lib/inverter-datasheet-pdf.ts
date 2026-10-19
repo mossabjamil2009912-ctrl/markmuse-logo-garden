@@ -2,7 +2,7 @@
 // المصدر الوحيد للبيانات: بيانات الموديل المنبثق في products-data.ts (المستخرجة من كتالوج المصنّع).
 // ممنوع عرض نطاقات قدرة أو أعمدة بقية موديلات السلسلة، وممنوع أي تسعير أو طلب شراء.
 import type { Product } from "./products-data";
-import actesLogo from "@/assets/actes-logo.png.asset.json";
+const actesLogo = { url: "/brand/actes-logo-report.png" };
 
 const esc = (s: unknown) =>
   String(s ?? "").replace(/&/g, "&amp;").replace(/</g, "&lt;").replace(/>/g, "&gt;").replace(/"/g, "&quot;");

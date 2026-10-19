@@ -44,7 +44,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import logoAsset from "@/assets/actes-logo-sld.png.asset.json";
+const logoAsset = { url: "/media/actes-logo-sld.png" };
 
 /**
  * ألوان الرسم الكهربائي القياسية (IEC): ليست ألوان واجهة بل دلالات هندسية

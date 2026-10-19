@@ -1,13 +1,13 @@
 import type { SldModel } from "./sld-engine";
 import type { CableCalc } from "./sld-annotations";
-import logoAsset from "@/assets/actes-logo-sld.png.asset.json";
+const logoAsset = { url: "/media/actes-logo-sld.png" };
 
 /**
  * يصدّر المخطط الأحادي كلوحة هندسية رسمية A4 عرضية:
  * إطار الرسم + كتلة بيانات اللوحة (Title Block) بشعار تمكين للحلول التقنية والهندسية + جدول الكابلات
  * وحصر الأصناف والملاحظات. يعتمد على نفس الرسم الظاهر في الشاشة.
  */
-const LOGO = logoAsset.url;
+const LOGO = (typeof window !== "undefined" ? window.location.origin : "") + logoAsset.url;
 
 const esc = (s: unknown) =>
   String(s ?? "")

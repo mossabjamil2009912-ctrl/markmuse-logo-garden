@@ -28,7 +28,7 @@ import { getStudyGeometry } from "@/lib/pvsyst-access";
 import { buildEconomics, capexFromQuoteItems, DEFAULT_TARIFF_USD } from "@/lib/pvsyst-economics";
 import { downloadPvsystReport } from "@/lib/pvsyst-pdf";
 import type { View } from "@/lib/present";
-import actesLogoPlain from "@/assets/actes-logo-plain.png.asset.json";
+const actesLogoPlain = { url: "/media/actes-logo-plain.png" };
 
 const nf = (n: number, d = 0) => n.toLocaleString("en-US", { minimumFractionDigits: d, maximumFractionDigits: d });
 

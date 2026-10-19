@@ -5,7 +5,7 @@ import {
   type EconomicsResult,
   type Scenario,
 } from "./pvsyst-economics";
-import actesLogoPlain from "@/assets/actes-logo-plain.png.asset.json";
+const actesLogoPlain = { url: "/media/actes-logo-plain.png" };
 
 /**
  * تقرير دراسة الجدوى الاقتصادية والوفر البيئي — مستند رسمي مستقل بهوية TAMKEEN
@@ -34,7 +34,7 @@ export function downloadEconomicReport(
 ) {
   if (typeof window === "undefined") return;
 
-  const logo = (actesLogoPlain as { url: string }).url;
+  const logo = window.location.origin + actesLogoPlain.url;
   const now = new Date();
   const dstr = now.toLocaleDateString("en-GB");
   const project = study.customer || "TAMKEEN Project";

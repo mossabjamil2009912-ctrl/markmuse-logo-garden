@@ -1,7 +1,7 @@
 // النسخة الإنجليزية من كتالوج الموديل (Model Datasheet — English) بهوية تمكين للحلول التقنية والهندسية.
 // نفس بيانات المصنّع الواردة في products-data.ts، مترجمة عبر datasheet-en-dictionary.ts فقط.
 import type { Product } from "./products-data";
-import actesLogo from "@/assets/actes-logo.png.asset.json";
+const actesLogo = { url: "/brand/actes-logo-report.png" };
 import {
   translateGroupTitle,
   translateSpecLabel,
