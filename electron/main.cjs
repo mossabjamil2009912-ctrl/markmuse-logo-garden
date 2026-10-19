@@ -41,6 +41,7 @@ async function serve(request, response) {
   try {
     const url = new URL(request.url, `http://127.0.0.1:${port}`);
     if (url.pathname === '/desktop-online') { response.writeHead(await online() ? 204 : 503, { 'Cache-Control': 'no-store' }); response.end(); return; }
+    if (url.pathname === '/desktop-update') { const ok = await online(); if (ok) void checkUpdates(true); response.writeHead(ok ? 202 : 503, { 'Cache-Control': 'no-store' }); response.end(); return; }
     const pathname = decodeURIComponent(url.pathname);
     if (activeRelease && request.method === 'GET' && !pathname.startsWith('/api/') && !pathname.startsWith('/_serverFn')) {
       const relative = pathname === '/' ? 'index.html' : pathname.slice(1);
