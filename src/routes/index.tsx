@@ -918,7 +918,7 @@ function ActesApp() {
 
       <AppSidebar collapsed={sidebarCollapsed} active={catalog ? "products" : isHome ? "home" : step.startsWith("sup_") ? "support" : step.startsWith("eco_") || step.startsWith("pv_") || step === "energy_menu" || step === "sld_custom" ? "energy" : "quote"} onNavigate={navFromMenu} onProducts={openProducts} onSettings={() => setSettingsOpen(true)} onExit={leaveApp} />
       <div className="flex min-h-0 min-w-0 flex-1 flex-col overflow-hidden lg:col-start-1 lg:row-start-1">
-        <TopBar banner={!isHome || !!catalog} onToggleSidebar={() => setSidebarCollapsed((v) => !v)} sidebarCollapsed={sidebarCollapsed} isAdmin={isAdmin} clientName={clientName} onExitAdmin={exitAdmin} onSettings={() => setSettingsOpen(true)} onExit={leaveApp} />
+        <TopBar onToggleSidebar={() => setSidebarCollapsed((v) => !v)} sidebarCollapsed={sidebarCollapsed} isAdmin={isAdmin} clientName={clientName} onExitAdmin={exitAdmin} onSettings={() => setSettingsOpen(true)} onExit={leaveApp} />
          <main ref={mainRef} className="app-main mx-auto flex w-full min-h-0 flex-1 overflow-y-auto px-3 py-3 pb-24 sm:px-6 lg:px-8 lg:pb-4">
           {busy && (
             // شريط تقدّم رفيع لا يحجب الشاشة ولا يقطع سلاسة الانتقال بين الخطوات
