@@ -1443,16 +1443,7 @@ function BrandMark({ compact = false, className, white = false }: { inverse?: bo
 
 function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSettings, onExit, onToggleSidebar, sidebarCollapsed }: { isAdmin: boolean; clientName?: string; onExitAdmin: () => void; onSettings: () => void; onExit: () => void; onToggleSidebar: () => void; sidebarCollapsed: boolean; banner?: boolean }) {
   return (
-    <header className={`app-topbar ${banner ? "app-topbar--banner" : ""} relative grid h-[52px] shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center border-b border-border bg-background px-2 text-navy shadow-[var(--shadow-soft)] sm:h-[62px] sm:px-4 lg:h-[84px] lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-4 lg:px-6 [&_button]:!text-navy [&_svg]:!text-navy`}>
-      {banner && (
-        <div className="topbar-banner hidden lg:flex">
-          <div className="topbar-banner-side"><span aria-hidden />للحلول التقنية<br />والهندسية</div>
-          <img src={topbarSolarCity} alt="" width={1200} height={400} className="topbar-banner-photo" />
-          <span className="topbar-banner-pill">تمكين ... لنحقق أفضل لمستقبل أخضر</span>
-          <div className="topbar-banner-brand"><TamkeenBrand /></div>
-          <div className="topbar-banner-tools [&_svg]:size-5"><NotificationsBell isAdmin={isAdmin} /><OrderCenterButton isAdmin={isAdmin} /><ReplayVoiceButton /><LangSwitch /><Button variant="presentation" size="presentation" onClick={onToggleSidebar} aria-label="القائمة" className="grid size-9 place-items-center rounded-md !bg-transparent"><Menu className="size-6" /></Button></div>
-        </div>
-      )}
+    <header data-banner={banner ? "off" : undefined} className="app-topbar relative grid h-[52px] shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center border-b border-border bg-background px-2 text-navy shadow-[var(--shadow-soft)] sm:h-[62px] sm:px-4 lg:h-[84px] lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-4 lg:px-6 [&_button]:!text-navy [&_svg]:!text-navy">
       {/* يمين: المستخدم والإشعارات وهوية تمكين */}
       <div className="flex min-w-0 items-center gap-2 lg:gap-4">
         <span className="lg:hidden"><TamkeenBrand compact /></span>
