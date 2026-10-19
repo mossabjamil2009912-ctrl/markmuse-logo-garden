@@ -1,6 +1,6 @@
 import type { PvsystStudyResult } from "./pvsyst-engine";
 import { LIFETIME_YEARS, cashFlowSchedule, type EconomicsResult } from "./pvsyst-economics";
-import actesLogoPlain from "@/assets/actes-logo-plain.png.asset.json";
+const actesLogoPlain = { url: "/media/actes-logo-plain.png" };
 
 /**
  * يبني تقرير محاكاة بنفس تصميم وتنسيق وألوان تقرير PVsyst V8.1.2 الرسمي:

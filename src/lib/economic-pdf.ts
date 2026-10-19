@@ -5,7 +5,7 @@ import {
   type EconomicsResult,
   type Scenario,
 } from "./pvsyst-economics";
-import actesLogoPlain from "@/assets/actes-logo-plain.png.asset.json";
+const actesLogoPlain = { url: "/media/actes-logo-plain.png" };
 
 /**
  * تقرير دراسة الجدوى الاقتصادية والوفر البيئي — مستند رسمي مستقل بهوية TAMKEEN

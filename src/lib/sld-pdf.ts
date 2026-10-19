@@ -1,6 +1,6 @@
 import type { SldModel } from "./sld-engine";
 import type { CableCalc } from "./sld-annotations";
-import logoAsset from "@/assets/actes-logo-sld.png.asset.json";
+const logoAsset = { url: "/media/actes-logo-sld.png" };
 
 /**
  * يصدّر المخطط الأحادي كلوحة هندسية رسمية A4 عرضية:

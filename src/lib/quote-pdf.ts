@@ -56,7 +56,7 @@ export function downloadQuotePdf(quote: Quote) {
   @page{size:A4;margin:12mm}
 </style></head><body>
 <div class="head">
-  <div><p class="t1">تمكين للحلول التقنية والهندسية</p><p class="t2">عرض سعر</p></div>
+  <div style="display:flex;align-items:center;gap:10px"><img src="${window.location.origin}/brand/actes-logo-report.png" alt="TAMKEEN" style="height:56px;width:auto" /><div><p class="t1">تمكين للحلول التقنية والهندسية</p><p class="t2">عرض سعر</p></div></div>
   <div class="meta"><p>رقم العرض: ${esc(quote.number || "—")}</p><p>العميل: ${esc(quote.customer || "—")}</p></div>
 </div>
 <table>
