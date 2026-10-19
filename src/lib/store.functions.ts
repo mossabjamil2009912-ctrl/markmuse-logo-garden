@@ -1,21 +1,9 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createHash, timingSafeEqual } from "node:crypto";
-
-// وصول آمن للطلبات والإشعارات بعد قفل الجدولين أمام الوصول العام:
-// - حساب العميل هو رقمه: يجلب طلبات رقمه فقط، ويحدّث طلباً يملك رمز وصوله (accessToken).
-// - الإدارة تصل لكل شيء بكلمة المرور التي تُفحص في الخادم.
-
-function matches(input: string, expected: string): boolean {
-  const a = createHash("sha256").update(input, "utf8").digest();
-  const b = createHash("sha256").update(expected, "utf8").digest();
-  return timingSafeEqual(a, b);
-}
 
 async function checkAdmin(password: string): Promise<void> {
   const { isAdminPassword } = await import("@/lib/admin.functions");
   if (!(await isAdminPassword(password))) throw new Error("Unauthorized");
 }
-void matches;
 
 async function db() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");

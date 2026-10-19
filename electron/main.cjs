@@ -77,15 +77,16 @@ async function start() {
   fs.writeFileSync(portFile, JSON.stringify({ port }));
   activeRelease = await savedRelease(releaseRoot());
   await new Promise((resolve, reject) => { const server = http.createServer(serve); server.once('error', reject); server.listen(port, '127.0.0.1', resolve); });
-  win = new BrowserWindow({ width: 1440, height: 900, minWidth: 1024, minHeight: 700, show: false, icon: path.join(activeRelease || path.join(serverDir, 'public'), 'brand/app-icon.png'), webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true, autoplayPolicy: 'no-user-gesture-required' } });
-  win.once('ready-to-show', () => { win.show(); win.maximize(); });
+  win = new BrowserWindow({ width: 1440, height: 900, frame: false, fullscreen: true, autoHideMenuBar: true, backgroundColor: '#0b1b33', show: false, icon: path.join(activeRelease || path.join(serverDir, 'public'), 'brand/app-icon.png'), webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true, autoplayPolicy: 'no-user-gesture-required' } });
+  win.setMenuBarVisibility(false);
+  win.once('ready-to-show', () => { win.show(); win.setFullScreen(true); });
   win.webContents.setWindowOpenHandler(({ url }) => {
     if (url === 'about:blank' || url.startsWith(`http://127.0.0.1:${port}/`) || url.startsWith('blob:')) return { action: 'allow', overrideBrowserWindowOptions: { webPreferences: { contextIsolation: true, nodeIntegration: false, sandbox: true } } };
     if (/^https?:\/\//.test(url)) void shell.openExternal(url);
     return { action: 'deny' };
   });
   win.webContents.on('will-navigate', (event, url) => { if (!url.startsWith(`http://127.0.0.1:${port}/`)) { event.preventDefault(); if (/^https?:\/\//.test(url)) void shell.openExternal(url); } });
-  Menu.setApplicationMenu(Menu.buildFromTemplate([{ label: 'تمكين', submenu: [{ label: 'فحص التحديثات الآن', click: () => void checkUpdates(true) }, { role: 'quit', label: 'إغلاق' }] }]));
+  Menu.setApplicationMenu(null);
   await win.loadURL(`http://127.0.0.1:${port}/`);
   void checkUpdates();
   setInterval(() => void checkUpdates(), 10 * 60 * 1000);
