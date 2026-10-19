@@ -250,13 +250,10 @@ const NAV_ITEMS = [
 // main: العنصر الذي يُضاء عندما يكون مساره هو النشط (تجنّب إضاءة عنصرين بنفس المسار).
 const SIDEBAR_ITEMS = [
   { label: "الرئيسية", icon: Home, action: "home", main: true },
-  { label: "الدراسات الهندسية", icon: Grid2X2, action: "energy", main: true },
-  { label: "الدراسة الاقتصادية", icon: BadgeDollarSign, action: "energy", main: false },
-  { label: "عروض الأسعار", icon: Tag, action: "quote", main: true },
-  { label: "المنتجات والمنظومات", icon: LayoutGrid, action: "products", main: true },
-  { label: "الأجهزة والمنتجات", icon: Package, action: "products", main: false },
+  { label: "صمّم منظومتك (عروض الأسعار)", icon: Tag, action: "quote", main: true },
+  { label: "الدراسات الهندسية والاقتصادية", icon: Grid2X2, action: "energy", main: true },
+  { label: "كتالوج المنتجات والأجهزة", icon: Package, action: "products", main: true },
   { label: "العملاء والطلبات", icon: Users, action: "support", main: true },
-  { label: "المشاريع", icon: Folder, action: "quote", main: false },
 ] as const;
 
 function ActesApp() {
