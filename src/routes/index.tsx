@@ -250,10 +250,10 @@ const NAV_ITEMS = [
 // main: العنصر الذي يُضاء عندما يكون مساره هو النشط (تجنّب إضاءة عنصرين بنفس المسار).
 const SIDEBAR_ITEMS = [
   { label: "الرئيسية", icon: Home, action: "home", main: true },
-  { label: "صمّم منظومتك (عروض الأسعار)", icon: Tag, action: "quote", main: true },
-  { label: "الدراسات الهندسية والاقتصادية", icon: Grid2X2, action: "energy", main: true },
-  { label: "كتالوج المنتجات والأجهزة", icon: Package, action: "products", main: true },
-  { label: "الدعم الفني وما بعد البيع", icon: Users, action: "support", main: true },
+  { label: "صمّم منظومتك", icon: Tag, action: "quote", main: true },
+  { label: "الدراسات الهندسية", icon: Grid2X2, action: "energy", main: true },
+  { label: "الأجهزة والمنتجات", icon: Package, action: "products", main: true },
+  { label: "الدعم الفني", icon: Users, action: "support", main: true },
 ] as const;
 
 function ActesApp() {
@@ -1469,8 +1469,7 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
           </Button>
         )}
         <ReplayVoiceButton />
-        <span className="hidden lg:inline-flex [&_span]:hidden"><CorporateToggle /></span>
-        <span className="[&_svg]:size-5"><OrderCenterButton isAdmin={isAdmin} /></span>
+                <span className="[&_svg]:size-5"><OrderCenterButton isAdmin={isAdmin} /></span>
         <span className="lg:hidden [&_svg]:size-5"><NotificationsBell isAdmin={isAdmin} /></span>
         <Button variant="presentation" size="presentation" type="button" onClick={onExit} aria-label="خروج" title="خروج" className="grid size-8 place-items-center rounded-md transition hover:bg-muted lg:hidden"><LogOut className="size-5" /></Button>
         <LangSwitch />
