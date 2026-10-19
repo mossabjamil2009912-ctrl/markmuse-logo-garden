@@ -14,7 +14,7 @@ export default defineConfig({
   // طلبات العملاء تُرسل للإدارة عبر الموقع السحابي المنشور (الرابط الثابت للمشروع).
   define: {
     "import.meta.env.VITE_CLOUD_ORIGIN": JSON.stringify(
-      process.env.CLOUD_ORIGIN || "https://logo-crafted-art.lovable.app",
+      process.env.CLOUD_ORIGIN || "https://markmuse-logo-garden.lovable.app",
     ),
     "import.meta.env.VITE_OFFLINE_DESKTOP": JSON.stringify("true"),
   },
