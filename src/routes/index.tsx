@@ -1124,30 +1124,24 @@ function SettingsPanel({ open, onClose, isAdmin, clientName = "", onRestart, onS
   );
 }
 
-const LIVE_APP_URL = "https://mark-muse-logo-studio.lovable.app/";
-
-/** فحص التحديثات: عند توفر الإنترنت يفتح أحدث نسخة منشورة، وإلا يبقى على النسخة المحلية. */
+/** فحص التحديثات داخل التطبيق نفسه: ينزّل التحديث ويحفظه محليًا دون فتح أي موقع. */
 function UpdateButton() {
   const [state, setState] = useState<"idle" | "checking" | "offline" | "latest">("idle");
   const check = async () => {
     setState("checking");
-    try {
-      const ctrl = new AbortController();
-      const t = setTimeout(() => ctrl.abort(), 5000);
-      await fetch(`${LIVE_APP_URL}?check=${Date.now()}`, { mode: "no-cors", cache: "no-store", signal: ctrl.signal });
-      clearTimeout(t);
-    } catch {
-      setState("offline");
+    const native = (window as unknown as { TamkeenNative?: { update: () => void } }).TamkeenNative;
+    if (native) { native.update(); setState("latest"); return; }
+    if (window.location.hostname === "127.0.0.1") {
+      try {
+        const res = await fetch("/desktop-update", { cache: "no-store" });
+        setState(res.ok ? "latest" : "offline");
+      } catch { setState("offline"); }
       return;
     }
-    if (window.location.origin === new URL(LIVE_APP_URL).origin) {
-      setState("latest");
-      window.location.reload();
-      return;
-    }
-    window.location.href = LIVE_APP_URL;
+    if (!navigator.onLine) { setState("offline"); return; }
+    window.location.reload();
   };
-  const note = state === "checking" ? "جارٍ البحث عن تحديث…" : state === "offline" ? "لا يوجد اتصال بالإنترنت — تعمل النسخة المحلية" : state === "latest" ? "أنت على أحدث نسخة" : "";
+  const note = state === "checking" ? "جارٍ البحث عن تحديث…" : state === "offline" ? "لا يوجد اتصال بالإنترنت — تعمل النسخة المحلية" : state === "latest" ? "جارٍ تنزيل التحديث وحفظه داخل التطبيق…" : "";
   return (
     <div>
       <Button variant="presentation" size="presentation" type="button" onClick={check} disabled={state === "checking"} className="flex w-full items-center gap-3 rounded-md border border-border px-4 py-3 text-sm font-bold transition hover:bg-muted disabled:opacity-60">
