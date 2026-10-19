@@ -2719,6 +2719,8 @@ function AsideBenefit({ icon, text }: { icon: ReactNode; text: string }) {
 
 /** المنتج المعتمد المطابق لبند عرض السعر (ألواح / إنفرتر / بطارية / كابينة). */
 function productForQuoteItem(text: string): CatalogProduct | null {
+  // صور الجدول لثلاثة أصناف فقط: الألواح، الإنفرتر، البطاريات. وحدات التحكم والملحقات بلا صور.
+  if (/تحكم|متحكم|كنترولر|controller|\bBMS\b|شاحن|charger/i.test(text)) return null;
   if (/لوح|ألواح|panel/i.test(text)) return findCatalogProductForSpec(text, "panels");
   if (/انفرتر|انفيرتر|إنفرتر|إنفيرتر|عاكس|inverter/i.test(text)) return findCatalogProductForSpec(text, "inverters", text);
   if (/بطارية|بطاريات|كابينة|كبينة|تخزين|battery/i.test(text)) return findCatalogProductForSpec(text, "batteries", text);
