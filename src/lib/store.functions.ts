@@ -11,12 +11,11 @@ function matches(input: string, expected: string): boolean {
   return timingSafeEqual(a, b);
 }
 
-function checkAdmin(password: string): void {
-  const expected = process.env["ADMIN_PASSWORD"];
-  if (!expected || !password || !matches(password, expected)) {
-    throw new Error("Unauthorized");
-  }
+async function checkAdmin(password: string): Promise<void> {
+  const { isAdminPassword } = await import("@/lib/admin.functions");
+  if (!(await isAdminPassword(password))) throw new Error("Unauthorized");
 }
+void matches;
 
 async function db() {
   const { supabaseAdmin } = await import("@/integrations/supabase/client.server");
