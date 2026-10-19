@@ -34,7 +34,7 @@ const nowIso = () => new Date().toISOString();
 export const adminPullStore = createServerFn({ method: "POST" })
   .inputValidator((data: { password: string }) => ({ password: String(data?.password ?? "") }))
   .handler(async ({ data }) => {
-    checkAdmin(data.password);
+    await checkAdmin(data.password);
     const supabase = await db();
     const [ordersRes, notifsRes] = await Promise.all([
       supabase.from("orders").select("id, payload").limit(2000),
@@ -56,7 +56,7 @@ export const adminPushStore = createServerFn({ method: "POST" })
     notifs: Array.isArray(data?.notifs) ? data.notifs.slice(0, 5000) : [],
   }))
   .handler(async ({ data }) => {
-    checkAdmin(data.password);
+    await checkAdmin(data.password);
     const supabase = await db();
     if (data.orders.length) {
       const res = await supabase.from("orders").upsert(
