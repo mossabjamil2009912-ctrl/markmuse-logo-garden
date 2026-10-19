@@ -1263,6 +1263,7 @@ function AdminLogin({ onSuccess, onCancel }: { onSuccess: (password: string) => 
   const [password, setPassword] = useState("");
   const [error, setError] = useState(false);
   const [loading, setLoading] = useState(false);
+  const [resetOpen, setResetOpen] = useState(false);
   const check = useServerFn(verifyAdminPassword);
 
   const submit = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -1306,12 +1307,71 @@ function AdminLogin({ onSuccess, onCancel }: { onSuccess: (password: string) => 
         >
           {loading ? <Loader2 className="size-5 animate-spin" /> : null} دخول
         </Button>
-        <Button variant="presentation" size="presentation" type="button" onClick={onCancel} className="mt-3 w-full text-center text-xs font-bold text-muted-foreground transition hover:text-foreground">
+        <Button variant="presentation" size="presentation" type="button" onClick={() => setResetOpen(true)} className="mt-3 w-full text-center text-xs font-bold text-brand transition hover:opacity-80">
+          نسيت كلمة السر؟
+        </Button>
+        <Button variant="presentation" size="presentation" type="button" onClick={onCancel} className="mt-2 w-full text-center text-xs font-bold text-muted-foreground transition hover:text-foreground">
           رجوع
         </Button>
 
       </form>
+      {resetOpen && <AdminReset onClose={() => setResetOpen(false)} />}
     </main>
+  );
+}
+
+function AdminReset({ onClose }: { onClose: () => void }) {
+  const request = useServerFn(requestAdminReset);
+  const confirm = useServerFn(confirmAdminReset);
+  const [step, setStep] = useState<"send" | "code" | "done">("send");
+  const [code, setCode] = useState("");
+  const [pw, setPw] = useState("");
+  const [pw2, setPw2] = useState("");
+  const [msg, setMsg] = useState("");
+  const [busy, setBusy] = useState(false);
+
+  const send = async () => {
+    if (typeof navigator !== "undefined" && !navigator.onLine) { setMsg("الإنترنت غير متوفر، اتصل بالشبكة ثم حاول مجدداً"); return; }
+    setBusy(true); setMsg("");
+    try {
+      const r = await request();
+      if (r.ok) setStep("code"); else setMsg(r.error);
+    } catch { setMsg("الإنترنت غير متوفر أو تعذر الاتصال"); } finally { setBusy(false); }
+  };
+  const save = async () => {
+    if (pw !== pw2) { setMsg("كلمتا المرور غير متطابقتين"); return; }
+    setBusy(true); setMsg("");
+    try {
+      const r = await confirm({ data: { code, newPassword: pw } });
+      if (r.ok) setStep("done"); else setMsg(r.error);
+    } catch { setMsg("الإنترنت غير متوفر أو تعذر الاتصال"); } finally { setBusy(false); }
+  };
+  const field = "mt-3 h-12 w-full rounded-lg border border-border bg-background px-4 text-base outline-none focus:border-brand";
+
+  return (
+    <div className="fixed inset-0 z-50 grid place-items-center bg-background/80 px-6" dir="rtl">
+      <div className="w-full max-w-md rounded-xl border border-border bg-card p-6 shadow-2xl">
+        <h2 className="text-center text-xl font-black">استعادة كلمة المرور</h2>
+        {step === "send" && (
+          <>
+            <p className="mt-3 text-center text-sm text-muted-foreground">سيُرسل رمز تحقق إلى بريد الإدارة المسجل.</p>
+            <Button type="button" disabled={busy} onClick={send} className="mt-5 h-12 w-full">{busy && <Loader2 className="size-5 animate-spin" />} إرسال الرمز</Button>
+          </>
+        )}
+        {step === "code" && (
+          <>
+            <p className="mt-3 text-center text-sm text-muted-foreground">أدخل الرمز المرسل إلى بريدك وكلمة المرور الجديدة.</p>
+            <input inputMode="numeric" maxLength={6} value={code} onChange={(e) => setCode(e.target.value)} placeholder="رمز التحقق" className={field} />
+            <input type="password" value={pw} onChange={(e) => setPw(e.target.value)} placeholder="كلمة المرور الجديدة" className={field} />
+            <input type="password" value={pw2} onChange={(e) => setPw2(e.target.value)} placeholder="تأكيد كلمة المرور" className={field} />
+            <Button type="button" disabled={busy || !code || !pw} onClick={save} className="mt-5 h-12 w-full">{busy && <Loader2 className="size-5 animate-spin" />} حفظ كلمة المرور</Button>
+          </>
+        )}
+        {step === "done" && <p className="mt-4 text-center font-bold text-brand">تم اعتماد كلمة المرور الجديدة. استخدمها للدخول.</p>}
+        {msg && <p className="mt-3 text-center text-xs font-bold text-destructive">{msg}</p>}
+        <Button type="button" variant="ghost" onClick={onClose} className="mt-3 w-full">إغلاق</Button>
+      </div>
+    </div>
   );
 }
 
