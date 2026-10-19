@@ -1,16 +1,17 @@
 import { createServerFn } from "@tanstack/react-start";
-import { createHash, randomInt, timingSafeEqual } from "node:crypto";
 
 // Default admin password hash (SHA-256 only; plaintext never stored). A reset stores a new hash in the database.
 export const DEFAULT_ADMIN_HASH = "a7a2ae458dfd820589f0af06418f27885ca30999f1d8fc429286c67c63b38be1";
 const RESET_EMAIL = "sufiyangamilali77@gmail.com";
 const ROW_ID = "main";
 
-const sha = (s: string) => createHash("sha256").update(s, "utf8").digest("hex");
-const eqHex = (a: string, b: string) => {
+// node:crypto is loaded lazily so this module stays safe to import from browser code.
+const nc = () => import("node:crypto");
+const sha = async (s: string) => (await nc()).createHash("sha256").update(s, "utf8").digest("hex");
+const eqHex = async (a: string, b: string) => {
   const x = Buffer.from(a, "hex");
   const y = Buffer.from(b, "hex");
-  return x.length === y.length && timingSafeEqual(x, y);
+  return x.length === y.length && (await nc()).timingSafeEqual(x, y);
 };
 
 async function db() {
@@ -33,7 +34,7 @@ async function currentHash(): Promise<string> {
 
 export async function isAdminPassword(password: string): Promise<boolean> {
   if (!password) return false;
-  return eqHex(sha(password), await currentHash());
+  return eqHex(await sha(password), await currentHash());
 }
 
 export const verifyAdminPassword = createServerFn({ method: "POST" })
@@ -50,10 +51,10 @@ export const requestAdminReset = createServerFn({ method: "POST" }).handler(asyn
   if (row?.reset_expires_at && new Date(row.reset_expires_at).getTime() - 9 * 60_000 > Date.now()) {
     return { ok: false as const, error: "انتظر دقيقة قبل طلب رمز جديد" };
   }
-  const code = String(randomInt(100000, 1000000));
+  const code = String((await nc()).randomInt(100000, 1000000));
   const expires = new Date(Date.now() + 10 * 60_000).toISOString();
   const { error: upErr } = await supabase.from("admin_credentials").upsert({
-    id: ROW_ID, reset_code_hash: sha(code), reset_expires_at: expires, reset_attempts: 0, updated_at: new Date().toISOString(),
+    id: ROW_ID, reset_code_hash: await sha(code), reset_expires_at: expires, reset_attempts: 0, updated_at: new Date().toISOString(),
   });
   if (upErr) return { ok: false as const, error: "تعذر إنشاء الرمز" };
   const res = await fetch("https://connector-gateway.lovable.dev/resend/emails", {
@@ -83,12 +84,12 @@ export const confirmAdminReset = createServerFn({ method: "POST" })
       return { ok: false as const, error: "الرمز منتهي، اطلب رمزاً جديداً" };
     }
     if (row.reset_attempts >= 5) return { ok: false as const, error: "محاولات كثيرة، اطلب رمزاً جديداً" };
-    if (!/^\d{6}$/.test(data.code) || !eqHex(sha(data.code), row.reset_code_hash)) {
+    if (!/^\d{6}$/.test(data.code) || !(await eqHex(await sha(data.code), row.reset_code_hash))) {
       await supabase.from("admin_credentials").update({ reset_attempts: row.reset_attempts + 1 }).eq("id", ROW_ID);
       return { ok: false as const, error: "الرمز غير صحيح" };
     }
     await supabase.from("admin_credentials").update({
-      password_hash: sha(data.newPassword), reset_code_hash: null, reset_expires_at: null, reset_attempts: 0, updated_at: new Date().toISOString(),
+      password_hash: await sha(data.newPassword), reset_code_hash: null, reset_expires_at: null, reset_attempts: 0, updated_at: new Date().toISOString(),
     }).eq("id", ROW_ID);
     return { ok: true as const };
   });
