@@ -1473,7 +1473,7 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
         <span className="lg:hidden [&_svg]:size-5"><NotificationsBell isAdmin={isAdmin} /></span>
         <Button variant="presentation" size="presentation" type="button" onClick={onExit} aria-label="خروج" title="خروج" className="grid size-8 place-items-center rounded-md transition hover:bg-muted lg:hidden"><LogOut className="size-5" /></Button>
         <LangSwitch />
-        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[19px] font-black leading-7 text-navy 2xl:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[14px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
+        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[17px] font-black leading-6 text-navy min-[1900px]:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[14px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
         <Button variant="presentation" size="presentation" onClick={onToggleSidebar} aria-label={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} title={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} className="hidden size-10 place-items-center rounded-md text-navy lg:grid">
           <Menu className="size-7" />
         </Button>
