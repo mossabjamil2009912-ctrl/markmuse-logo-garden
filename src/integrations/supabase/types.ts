@@ -14,6 +14,33 @@ export type Database = {
   }
   public: {
     Tables: {
+      admin_credentials: {
+        Row: {
+          id: string
+          password_hash: string | null
+          reset_attempts: number
+          reset_code_hash: string | null
+          reset_expires_at: string | null
+          updated_at: string
+        }
+        Insert: {
+          id: string
+          password_hash?: string | null
+          reset_attempts?: number
+          reset_code_hash?: string | null
+          reset_expires_at?: string | null
+          updated_at?: string
+        }
+        Update: {
+          id?: string
+          password_hash?: string | null
+          reset_attempts?: number
+          reset_code_hash?: string | null
+          reset_expires_at?: string | null
+          updated_at?: string
+        }
+        Relationships: []
+      }
       notifications: {
         Row: {
           created_at: string
