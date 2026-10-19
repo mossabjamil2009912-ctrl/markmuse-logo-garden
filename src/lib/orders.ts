@@ -1,6 +1,7 @@
 import { useSyncExternalStore } from "react";
 import { adminPullStore, adminPushStore, pullClientOrders, pushClientOrder } from "@/lib/store.functions";
 import { notifyInvoiceDecision } from "@/lib/notify.functions";
+import { requireInternet, OFFLINE_MESSAGE } from "@/lib/network";
 // متجر الطلبات والإشعارات — تخزين محلي مع مزامنة آمنة عبر الخادم.
 
 // نسخة سطح المكتب لا تحمل مفاتيح السحابة: ترسل طلبات العميل إلى الموقع السحابي مباشرة.
@@ -23,6 +24,16 @@ const clientPull = (data: { items: { id: string; token: string }[]; phone: strin
   CLOUD_ORIGIN
     ? cloudCall<{ orders: unknown[]; notifs: unknown[] }>({ action: "pull", items: data.items })
     : pullClientOrders({ data });
+
+export async function sendOrderNow(id: string) {
+  await requireInternet();
+  const order = findOrder(id);
+  if (!order) throw new Error("تعذر حفظ الطلب");
+  try {
+    const result = await clientPush({ order: order as unknown as Record<string, unknown>, notifs: getStore().notifs.filter((item) => item.orderId === id) as unknown as Record<string, unknown>[] });
+    if (!result.ok) throw new Error(OFFLINE_MESSAGE);
+  } catch { throw new Error(OFFLINE_MESSAGE); }
+}
 
 export type PaymentMethod = "network" | "wallet" | "cod";
 

@@ -33,3 +33,5 @@
 - Explicitly language-rendered catalog labels opt out of DOM translation; translate shared payloads before sending them, because DOM translation cannot cover clipboard or sharing data.
 - Render shared brand identity through TamkeenBrand with the original emblem and live lettering, so it remains legible at every screen size.
 - Keep the existing workflow state machine and API routes intact; visual screen variants use data-screen and shared semantic tokens, so presentation changes cannot mutate engineering or order data.
+- Desktop always uses a stable loopback proxy and checksum-verified atomic public release snapshots; this preserves local storage and keeps the latest complete release offline without distributing server secrets.
+- Publish builds emit a public desktop-release.json inventory through tools/desktop-release-plugin.ts; only public media and client assets can enter downloadable snapshots.

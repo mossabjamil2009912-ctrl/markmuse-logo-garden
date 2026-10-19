@@ -14,6 +14,7 @@ import {
   markSeen,
   orderBucket,
   resubmitPayment,
+  sendOrderNow,
   useOrdersStore,
   type Notif,
   type Order,
@@ -22,6 +23,7 @@ import {
 import { formatSystemName, money } from "@/lib/present";
 import { notifyAdminWhatsapp } from "@/lib/notify.functions";
 import { ADMIN_NOTICE_BUTTONS } from "@/lib/admin-notice";
+import { requireInternet, OFFLINE_MESSAGE } from "@/lib/network";
 
 function timeLabel(at: number) {
   return new Date(at).toLocaleString("ar", { hour: "2-digit", minute: "2-digit", day: "2-digit", month: "2-digit" });
@@ -133,8 +135,10 @@ function ClientOrderCard({ order }: { order: Order }) {
     }
     setBusy(true);
     setError("");
+    try { await requireInternet(); } catch { setError(OFFLINE_MESSAGE); setBusy(false); return; }
     const next = resubmitPayment(order.id, { transferRef: ref });
     try {
+      await sendOrderNow(order.id);
       await sendWhatsapp({
         data: {
           text: `🔁 *إعادة إدخال رقم الحوالة*\n👤 العميل: ${order.customer}\n🧾 الرقم الجديد: ${ref}\n💰 الإجمالي: ${money(order.total)}`,
@@ -149,8 +153,7 @@ function ClientOrderCard({ order }: { order: Order }) {
       if (next) setDone(true);
       setValue("");
     } catch {
-      if (next) setDone(true);
-      setValue("");
+      setError(OFFLINE_MESSAGE);
     } finally {
       setBusy(false);
     }

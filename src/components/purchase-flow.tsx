@@ -22,6 +22,7 @@ import {
   findOrder,
   requestEdit,
   setPayment,
+  sendOrderNow,
   statusFlow,
   useOrdersStore,
   type Order,
@@ -31,6 +32,7 @@ import { money, type View } from "@/lib/present";
 import { notifyAdminWhatsapp } from "@/lib/notify.functions";
 import { ADMIN_NOTICE_BUTTONS, buildAdminNotice } from "@/lib/admin-notice";
 import { PHRASES, speak } from "@/lib/voice-guide";
+import { requireInternet, OFFLINE_MESSAGE } from "@/lib/network";
 
 type Quote = NonNullable<View["quote"]>;
 
@@ -85,6 +87,7 @@ export function PurchaseFlow({ quote, customer, projectType, city }: { quote: Qu
     if (!orderId || !method) return;
     setBusy(true);
     setSendError("");
+    try { await requireInternet(); } catch { setSendError(OFFLINE_MESSAGE); setBusy(false); return; }
     const savedOrder = setPayment(orderId, method, { transferRef, proofName, codConfirmed });
     if (!savedOrder) {
       setSendError("تعذر حفظ الطلب. حاول مرة أخرى.");
@@ -115,6 +118,7 @@ export function PurchaseFlow({ quote, customer, projectType, city }: { quote: Qu
     });
 
     try {
+      await sendOrderNow(savedOrder.id);
       const result = await sendWhatsapp({
         data: {
           text:
@@ -141,7 +145,7 @@ export function PurchaseFlow({ quote, customer, projectType, city }: { quote: Qu
       setStage("tracking");
       void speak(PHRASES.confirmed);
     } catch {
-      setStage("tracking");
+      setSendError(OFFLINE_MESSAGE);
     } finally {
       setBusy(false);
     }

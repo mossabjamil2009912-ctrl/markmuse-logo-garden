@@ -1,5 +1,12 @@
 # Roadmap
 
+## Current request: Windows app with persistent offline updates
+- [x] Generate a complete public release asset manifest on each website build.
+- [x] Keep Electron on a stable local origin; atomically save and activate complete published snapshots.
+- [x] Check connectivity for sending references and recovery; retain local work when offline.
+- [x] Package and inspect the portable Windows archive; verify offline browsing and persistent update behavior with tests.
+- [ ] Verify the executable on Windows (requires a Windows device); published update download requires publishing the new release manifest.
+
 ## Current request: comprehensive reference-matched TAMKEEN redesign
 - [x] Inventory content/API routes and 96 workflow state literals; map seven approved references in screen-review.md.
 - [x] Unify reference colors, typography, surfaces and shared controls without changing functional logic.

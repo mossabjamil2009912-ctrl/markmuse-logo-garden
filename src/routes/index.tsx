@@ -120,7 +120,8 @@ import { useServerFn } from "@tanstack/react-start";
 import { verifyAdminPassword, requestAdminReset, confirmAdminReset } from "@/lib/admin.functions";
 import { notifyAdminWhatsapp } from "@/lib/notify.functions";
 import { ADMIN_NOTICE_BUTTONS, buildAdminNotice } from "@/lib/admin-notice";
-import { createOrder, createSalesRequest, setPayment, switchClient, type PaymentMethod } from "@/lib/orders";
+import { createOrder, createSalesRequest, setPayment, sendOrderNow, switchClient, type PaymentMethod } from "@/lib/orders";
+import { requireInternet, OFFLINE_MESSAGE } from "@/lib/network";
 import { downloadQuotePdf } from "@/lib/quote-pdf";
 import { PurchaseFlow } from "@/components/purchase-flow";
 import { NotificationsBell } from "@/components/notifications";
@@ -478,6 +479,10 @@ function ActesApp() {
     chosenRef.current = viewRef.current?.options.find((o) => o.id === clean)?.title || "";
     setNotificationStatus("");
     const sourceStep = sessionRef.current["step"] || step;
+    const navigationOnly = /^(back_step|back|0|00|العودة خطوة|رجوع|العودة للبداية|Back one step)$/i.test(clean);
+    if (!navigationOnly && (sourceStep === "pay_notice" || clean === "sales_contact" || clean === "pay_cod")) {
+      try { await requireInternet(); } catch { window.alert(OFFLINE_MESSAGE); return; }
+    }
     // زر الرجوع: يعود خطوة واحدة إلى الشاشة السابقة المعروضة فعلاً كما كانت.
     const isBackOne =
       clean === "back_step" || clean === "back" || clean === "00" ||
@@ -637,8 +642,11 @@ function ActesApp() {
           total,
         });
         setPayment(created.id, methodId, { transferRef: clean });
+        await sendOrderNow(created.id);
       } catch {
-        // نكمل الإشعار حتى لو تعذر الحفظ المحلي
+        setNotificationStatus("failed");
+        window.alert(OFFLINE_MESSAGE);
+        return;
       }
 
 
@@ -1331,7 +1339,7 @@ function AdminReset({ onClose }: { onClose: () => void }) {
   const [busy, setBusy] = useState(false);
 
   const send = async () => {
-    if (typeof navigator !== "undefined" && !navigator.onLine) { setMsg("الإنترنت غير متوفر، اتصل بالشبكة ثم حاول مجدداً"); return; }
+    try { await requireInternet(); } catch { setMsg(OFFLINE_MESSAGE); return; }
     setBusy(true); setMsg("");
     try {
       const r = await request();
@@ -1339,6 +1347,7 @@ function AdminReset({ onClose }: { onClose: () => void }) {
     } catch { setMsg("الإنترنت غير متوفر أو تعذر الاتصال"); } finally { setBusy(false); }
   };
   const save = async () => {
+    try { await requireInternet(); } catch { setMsg(OFFLINE_MESSAGE); return; }
     if (pw !== pw2) { setMsg("كلمتا المرور غير متطابقتين"); return; }
     setBusy(true); setMsg("");
     try {
