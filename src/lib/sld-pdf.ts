@@ -7,7 +7,7 @@ const logoAsset = { url: "/media/actes-logo-sld.png" };
  * إطار الرسم + كتلة بيانات اللوحة (Title Block) بشعار تمكين للحلول التقنية والهندسية + جدول الكابلات
  * وحصر الأصناف والملاحظات. يعتمد على نفس الرسم الظاهر في الشاشة.
  */
-const LOGO = logoAsset.url;
+const LOGO = (typeof window !== "undefined" ? window.location.origin : "") + logoAsset.url;
 
 const esc = (s: unknown) =>
   String(s ?? "")

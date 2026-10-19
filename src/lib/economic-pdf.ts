@@ -34,7 +34,7 @@ export function downloadEconomicReport(
 ) {
   if (typeof window === "undefined") return;
 
-  const logo = (actesLogoPlain as { url: string }).url;
+  const logo = window.location.origin + actesLogoPlain.url;
   const now = new Date();
   const dstr = now.toLocaleDateString("en-GB");
   const project = study.customer || "TAMKEEN Project";
