@@ -253,7 +253,7 @@ const SIDEBAR_ITEMS = [
   { label: "صمّم منظومتك (عروض الأسعار)", icon: Tag, action: "quote", main: true },
   { label: "الدراسات الهندسية والاقتصادية", icon: Grid2X2, action: "energy", main: true },
   { label: "كتالوج المنتجات والأجهزة", icon: Package, action: "products", main: true },
-  { label: "العملاء والطلبات", icon: Users, action: "support", main: true },
+  { label: "الدعم الفني وما بعد البيع", icon: Users, action: "support", main: true },
 ] as const;
 
 function ActesApp() {
@@ -725,7 +725,7 @@ function ActesApp() {
     // إن لم تكن الخيارات جاهزة بعد، نرسل الاختيار مباشرة حتى تعمل البطاقة من أول نقرة
     const initial = runBot(sessionRef.current, {
       phone: PHONE,
-      text: kind === "quote" ? "1" : kind === "energy" ? "2" : "3",
+      text: kind === "quote" ? "1" : kind === "energy" ? "renewable_solutions" : "aftersales_support",
       message_id: `web.nav.${Date.now()}`,
       phone_number_id: "actes-web",
     });
@@ -764,7 +764,7 @@ function ActesApp() {
       window.setTimeout(() => {
         const initial = runBot(sessionRef.current, {
           phone: PHONE,
-          text: action === "quote" ? "1" : action === "energy" ? "2" : "3",
+          text: action === "quote" ? "1" : action === "energy" ? "renewable_solutions" : "aftersales_support",
           message_id: `web.nav.${Date.now()}`,
           phone_number_id: "actes-web",
         });
@@ -1881,7 +1881,7 @@ function QuoteWorkspace({ view, session, step, draft, setDraft, onPick, onBack, 
             <span className="mt-2 block h-1 w-10 rounded-full bg-brand" />
           </div>
           <div className="flex shrink-0 items-center gap-2">
-            <Button variant="presentation" size="presentation" type="button" onClick={() => { silenceNextScreen(); if (studyDone) { onHome(); return; } onBack(); }} title="رجوع خطوة" aria-label="رجوع خطوة" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-xs font-bold text-navy shadow-sm transition hover:bg-muted hover:border-brand hover:text-brand lg:text-sm">
+            <Button variant="presentation" size="presentation" type="button" onClick={() => { silenceNextScreen(); if (ecoScreen) { setShowEco(false); return; } if (studyScreen) { setShowStudyOnly(false); return; } if (sldScreen && view.quote) { setShowSldOnly(false); return; } if (studyDone) { onHome(); return; } onBack(); }} title="رجوع خطوة" aria-label="رجوع خطوة" className="inline-flex items-center gap-1.5 rounded-full border border-border bg-card px-3 py-2 text-xs font-bold text-navy shadow-sm transition hover:bg-muted hover:border-brand hover:text-brand lg:text-sm">
               <ArrowRight className="size-4" /> رجوع
             </Button>
             {(step === "done" || studyDone) && (
