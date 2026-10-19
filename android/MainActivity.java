@@ -78,9 +78,10 @@ public class MainActivity extends Activity {
   }
   android.webkit.ValueCallback<Uri[]> fileCallback;
   @Override protected void onActivityResult(int request,int result,Intent data) { super.onActivityResult(request,result,data); if(request==42 && fileCallback!=null) { fileCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(result,data)); fileCallback=null; } }
-  String bridgeScript() { return "window.print=()=>TamkeenNative.print();if(!window.__tamkeenDownloads){window.__tamkeenDownloads=true;document.addEventListener('click',e=>{let a=e.target.closest('a[download]');if(a&&a.href.startsWith('blob:')){e.preventDefault();fetch(a.href).then(r=>r.blob()).then(b=>{let f=new FileReader();f.onload=()=>TamkeenNative.save(f.result,b.type,a.download||'TAMKEEN.pdf');f.readAsDataURL(b)})}},true)}"; }
+  String bridgeScript() { return "window.print=()=>TamkeenNative.print();if(!window.__tamkeenDownloads){window.__tamkeenDownloads=true;document.addEventListener('click',e=>{let button=e.target.closest('button');if(button&&button.textContent.includes('تحديث التطبيق')){e.preventDefault();e.stopImmediatePropagation();TamkeenNative.update();return}let a=e.target.closest('a[download]');if(a&&a.href.startsWith('blob:')){e.preventDefault();fetch(a.href).then(r=>r.blob()).then(b=>{let f=new FileReader();f.onload=()=>TamkeenNative.save(f.result,b.type,a.download||'TAMKEEN.pdf');f.readAsDataURL(b)})}},true)}"; }
   class Bridge {
     WebView target; Bridge(WebView v) { target=v; }
+    @JavascriptInterface public void update() { worker.execute(() -> checkUpdates(true)); }
     @JavascriptInterface public void print() { runOnUiThread(() -> ((PrintManager)getSystemService(PRINT_SERVICE)).print("TAMKEEN",target.createPrintDocumentAdapter("TAMKEEN"),new PrintAttributes.Builder().build())); }
     @JavascriptInterface public void save(String data,String mime,String filename) {
       worker.execute(() -> { try {
