@@ -111,17 +111,9 @@ function useMobile() {
   return m;
 }
 
-/** الشاشات المصوّرة مفعّلة على الكمبيوتر والجوال (صور مختلفة لكل منهما). */
+/** الشاشات المصوّرة متوقفة: كل الواجهات تُرسم الآن بالكود بدل الصور الثابتة. */
 export function useDesktopScreens() {
-  const [on, setOn] = useState(false);
-  useEffect(() => {
-    const mq = window.matchMedia("(min-width: 0px)");
-    const f = () => setOn(mq.matches);
-    f();
-    mq.addEventListener("change", f);
-    return () => mq.removeEventListener("change", f);
-  }, []);
-  return on;
+  return false;
 }
 
 type Box = [number, number, number, number];

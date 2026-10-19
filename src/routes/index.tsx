@@ -250,10 +250,10 @@ const NAV_ITEMS = [
 // main: العنصر الذي يُضاء عندما يكون مساره هو النشط (تجنّب إضاءة عنصرين بنفس المسار).
 const SIDEBAR_ITEMS = [
   { label: "الرئيسية", icon: Home, action: "home", main: true },
-  { label: "صمّم منظومتك (عروض الأسعار)", icon: Tag, action: "quote", main: true },
-  { label: "الدراسات الهندسية والاقتصادية", icon: Grid2X2, action: "energy", main: true },
-  { label: "كتالوج المنتجات والأجهزة", icon: Package, action: "products", main: true },
-  { label: "الدعم الفني وما بعد البيع", icon: Users, action: "support", main: true },
+  { label: "صمّم منظومتك", icon: Tag, action: "quote", main: true },
+  { label: "الدراسات الهندسية", icon: Grid2X2, action: "energy", main: true },
+  { label: "الأجهزة والمنتجات", icon: Package, action: "products", main: true },
+  { label: "الدعم الفني", icon: Users, action: "support", main: true },
 ] as const;
 
 function ActesApp() {
@@ -1461,7 +1461,7 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
       {/* الوسط: شعار تمكين */}
       <div className="app-topbar-center hidden justify-center lg:flex"><TamkeenBrand /></div>
       {/* يسار: الشعار النصي وأدوات الشاشة وزر القائمة */}
-      <div className="flex shrink-0 items-center justify-end gap-0.5 sm:gap-3 lg:min-w-0 [&_button]:!bg-transparent">
+      <div className="flex shrink-0 items-center justify-end gap-0.5 sm:gap-3 lg:min-w-0 lg:overflow-hidden [&_button]:!bg-transparent">
         <Button variant="presentation" size="presentation" type="button" onClick={onSettings} aria-label="الإعدادات" title="الإعدادات" className="grid size-8 place-items-center rounded-full transition hover:bg-muted lg:hidden"><Settings className="size-5" /></Button>
         {isAdmin && (
           <Button variant="presentation" size="presentation" type="button" onClick={onExitAdmin} className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-xs font-bold text-foreground transition hover:bg-muted" dir="ltr">
@@ -1469,12 +1469,11 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
           </Button>
         )}
         <ReplayVoiceButton />
-        <span className="hidden lg:inline-flex [&_span]:hidden"><CorporateToggle /></span>
-        <span className="[&_svg]:size-5"><OrderCenterButton isAdmin={isAdmin} /></span>
+                <span className="[&_svg]:size-5"><OrderCenterButton isAdmin={isAdmin} /></span>
         <span className="lg:hidden [&_svg]:size-5"><NotificationsBell isAdmin={isAdmin} /></span>
         <Button variant="presentation" size="presentation" type="button" onClick={onExit} aria-label="خروج" title="خروج" className="grid size-8 place-items-center rounded-md transition hover:bg-muted lg:hidden"><LogOut className="size-5" /></Button>
         <LangSwitch />
-        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[19px] font-black leading-7 text-navy 2xl:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[14px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
+        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[17px] font-black leading-6 text-navy min-[1900px]:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[14px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
         <Button variant="presentation" size="presentation" onClick={onToggleSidebar} aria-label={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} title={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} className="hidden size-10 place-items-center rounded-md text-navy lg:grid">
           <Menu className="size-7" />
         </Button>
