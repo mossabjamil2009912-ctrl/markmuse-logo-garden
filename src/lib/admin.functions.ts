@@ -3,7 +3,7 @@ import { createHash, randomInt, timingSafeEqual } from "node:crypto";
 
 // Default admin password hash (SHA-256 only; plaintext never stored). A reset stores a new hash in the database.
 export const DEFAULT_ADMIN_HASH = "a7a2ae458dfd820589f0af06418f27885ca30999f1d8fc429286c67c63b38be1";
-const RESET_EMAIL = "Sufiyangamilali77@gmail.com";
+const RESET_EMAIL = "sufiyangamilali77@gmail.com";
 const ROW_ID = "main";
 
 const sha = (s: string) => createHash("sha256").update(s, "utf8").digest("hex");
