@@ -1501,29 +1501,6 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
   );
 }
 
-/** زر صغير في الزاوية لتصغير الشاشة أو إعادة ملئها. */
-function ScreenSizeButton() {
-  const [full, setFull] = useState(false);
-  useEffect(() => {
-    const sync = () => setFull(isFullscreen());
-    sync();
-    document.addEventListener("fullscreenchange", sync);
-    return () => document.removeEventListener("fullscreenchange", sync);
-  }, []);
-  const Icon = full ? Minimize2 : Maximize2;
-  return (
-    <Button variant="presentation" size="presentation"
-      type="button"
-      aria-label={full ? "تصغير الشاشة" : "ملء الشاشة"}
-      title={full ? "تصغير الشاشة" : "ملء الشاشة"}
-      onClick={() => void toggleFullscreen()}
-      className="fixed left-2 top-2 z-[60] hidden size-7 place-items-center rounded-full border border-border bg-card/85 text-navy shadow-sm backdrop-blur transition hover:border-brand hover:text-brand lg:grid"
-    >
-      <Icon className="size-3.5" />
-    </Button>
-  );
-}
-
 /** زر صغير لإعادة سماع نطق الشاشة الحالية. */
 function ReplayVoiceButton() {
   const [playing, setPlaying] = useState(false);
