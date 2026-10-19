@@ -1,6 +1,7 @@
 /** Desktop is served from a loopback server; this never changes hosted narration. */
 export function isOfflineDesktop() {
-  return import.meta.env["VITE_OFFLINE_DESKTOP"] === "true";
+  return import.meta.env["VITE_OFFLINE_DESKTOP"] === "true" ||
+    (typeof window !== "undefined" && window.location.hostname === "127.0.0.1");
 }
 
 export type OfflineVoicePhrase = { text: string; key: string; lang: string };
