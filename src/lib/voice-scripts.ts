@@ -5,7 +5,7 @@ import type { Lang } from "@/lib/i18n";
 export type Script = { ar: string; en: string; zh: string; input?: boolean };
 
 export const WELCOME: Record<Lang, string> = {
-  ar: "أَهْلًا بِكَ فِي تَمْكِينِ الهَنْدَسَةِ لِلْحُلُولِ التِّقْنِيَّةِ الذَّكِيَّة. تَفَضَّلْ بِاخْتِيَارِ الخِدْمَةِ الَّتِي تُرِيدُهَا.",
+  ar: "أَهْلًا بِكَ فِي نِظَامِ تَمْكِينٍ لِلْحُلُولِ التِّقْنِيَّةِ وَالهَنْدَسِيَّة. تَفَضَّلْ بِاخْتِيَارِ الخِدْمَةِ الَّتِي تُرِيدُهَا.",
   en: "Welcome to the TAMKEEN system for energy systems and solutions. Please choose the service you want.",
   zh: "欢迎使用阿尔什工程系统，专注能源系统与解决方案。请选择您想要的服务。",
 };
@@ -14,7 +14,7 @@ const S = (ar: string, en: string, zh: string, input = false): Script => ({ ar, 
 
 export const SCRIPTS: Record<string, Script> = {
   // ===== القوائم =====
-  welcome_services: S("مَرْحَبًا بِكَ فِي تَمْكِينِ الهَنْدَسَةِ لِلْحُلُولِ التِّقْنِيَّةِ الذَّكِيَّة. اخْتَرِ الخِدْمَةَ المَطْلُوبَة: طَلَبُ عَرْضِ سِعْر، حُلُولُ أَنْظِمَةِ الطَّاقَة، أَوِ الدَّعْمُ الفَنِّيّ.", "Welcome to TAMKEEN. Choose the service you need: price quote, energy solutions, or technical support.", "欢迎来到阿尔什工程。请选择服务：申请报价、能源系统方案或技术支持。"),
+  welcome_services: S("مَرْحَبًا بِكَ فِي نِظَامِ تَمْكِينٍ لِلْحُلُولِ التِّقْنِيَّةِ وَالهَنْدَسِيَّة. اخْتَرِ الخِدْمَةَ المَطْلُوبَة: طَلَبُ عَرْضِ سِعْر، حُلُولُ أَنْظِمَةِ الطَّاقَة، أَوِ الدَّعْمُ الفَنِّيّ.", "Welcome to TAMKEEN. Choose the service you need: price quote, energy solutions, or technical support.", "欢迎来到阿尔什工程。请选择服务：申请报价、能源系统方案或技术支持。"),
   ind_starter: S("حَدِّدْ طَرِيقَةَ تَشْغِيلِ المُحَرِّكَاتِ فِي مَصْنَعِك: تَشْغِيلٌ مُبَاشِرٌ أَوْ سْتَار دِلْتَا، أَوْ بَادِئٌ نَاعِم، أَوْ مُغَيِّرُ سُرْعَة.", "Choose how your factory motors start: direct or star-delta, soft starter, or variable speed drive.", "请选择工厂电机的启动方式：直接或星三角启动、软启动器，或变频器。"),
   ind_night_kw: S("الحِمْلُ اللَّيْلِيّ. أَدْخِلْ حِمْلَ المَصْنَعِ أَثْنَاءَ اللَّيْلِ بِالكِيلُووَاط.", "Night load. Enter the factory's night-time load in kilowatts.", "夜间负荷。请以千瓦输入工厂夜间负荷。", true),
   ind_bill: S("أَدْخِلْ مُتَوَسِّطَ فَاتُورَةِ الكَهْرَبَاءِ الشَّهْرِيَّةِ لِمَصْنَعِك.", "Enter your factory's average monthly electricity bill.", "请输入工厂每月平均电费。", true),
