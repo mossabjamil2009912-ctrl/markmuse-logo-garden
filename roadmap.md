@@ -1,5 +1,11 @@
 # Roadmap
 
+## Current request: Android APK with the same offline agreement
+- [ ] Package the existing app and local media in an Android shell with stable local storage.
+- [ ] Save complete checksum-verified published updates atomically for offline use.
+- [ ] Preserve administration verification and online email password recovery; reject sending without connectivity.
+- [ ] Build, sign and inspect the APK; deliver it with clearly stated device-testing and publishing requirements.
+
 ## Current request: Windows app with persistent offline updates
 - [x] Generate a complete public release asset manifest on each website build.
 - [x] Keep Electron on a stable local origin; atomically save and activate complete published snapshots.
