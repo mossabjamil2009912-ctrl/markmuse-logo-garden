@@ -886,7 +886,6 @@ function ActesApp() {
 
   return (
     <div dir="rtl" className="min-h-dvh bg-background text-foreground">
-      <ScreenSizeButton />
       {imageKind && <ImageScreen kind={imageKind} onAction={onImageAction} isAdmin={isAdmin} userName={isAdmin ? "الإدارة" : clientName} />}
       {gate === "loading" ? (
         <div className="grid h-dvh w-full place-items-center bg-sidebar" />

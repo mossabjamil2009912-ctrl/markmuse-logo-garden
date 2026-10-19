@@ -138,8 +138,8 @@ export function ImageScreen({ kind, onAction, userName, isAdmin = false }: { kin
   const name = (mobile ? MNAME : NAME)[kind];
   return (
     <div dir="ltr" className="fixed inset-0 z-[70] grid place-items-center overflow-hidden bg-navy" data-image-screen={kind}>
-      <div className="relative" style={{ width: `min(100vw, calc(100dvh * ${W} / ${H}))`, aspectRatio: `${W} / ${H}` }}>
-        <img src={(mobile ? MSRC : SRC)[kind]} alt="" draggable={false} className="absolute inset-0 size-full select-none object-contain" />
+      <div className="relative" style={{ width: "100vw", height: "100dvh" }}>
+        <img src={(mobile ? MSRC : SRC)[kind]} alt="" draggable={false} className="absolute inset-0 size-full select-none object-fill" />
         {spots.map(([x1, y1, x2, y2, action, label], i) => (
           <button
             key={i}
