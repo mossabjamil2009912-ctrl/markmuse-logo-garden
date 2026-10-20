@@ -1586,7 +1586,7 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
 
       <section className="home-services stagger-in grid shrink-0 grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3">
         <ServiceCard image={refCardQuote} icon={<FileText />} title="طلب عرض سعر" description="احصل على عرض مخصص وفقاً لاحتياجاتك" action="اطلب الآن" tone="brand" onClick={() => onService("quote")} />
-        <ServiceCard image={refCardEnergy} icon={<Grid2X2 />} title="الدراسات الهندسية والتصاميم" description="دراسات دقيقة لحلول الطاقة بأفضل كفاءة وتكلفة" action="عرض الدراسات" tone="energy" onClick={() => onService("energy")} />
+        <ServiceCard image={refCardEnergy} icon={<Grid2X2 />} title="الدراسات الهندسية" description="دراسات دقيقة لحلول الطاقة بأفضل كفاءة وتكلفة" action="عرض الدراسات" tone="energy" onClick={() => onService("energy")} />
         <ServiceCard image={refCardSupport} icon={<Headphones />} title="الدعم الفني" description="خدمات دعم وصيانة متكاملة لضمان استمرارية عمل أنظمتك" action="تواصل معنا" tone="skyline" onClick={() => onService("support")} />
         <ServiceCard image={refCardProducts} icon={<Package />} title="المنتجات" description="أحدث تقنيات أنظمة الطاقة الشمسية والمعدات عالية الجودة" action="عرض المنتجات" tone="navy" onClick={onProducts} />
       </section>
