@@ -1642,25 +1642,22 @@ function Feature({ icon, text }: { icon: ReactNode; text: string }) {
 }
 
 function ServiceCard({ image, icon, title, description, action, tone, onClick }: { image: string; icon: ReactNode; title: string; description: string; action: string; tone: "brand" | "energy" | "skyline" | "navy"; onClick: () => void }) {
-  const circle = tone ? "bg-brand text-brand-foreground" : "";
-  const btn = "bg-brand text-brand-foreground";
+  const circle = "bg-navy text-navy-foreground";
+  const btn = "border border-gold/70 bg-transparent text-navy group-hover:bg-gold/10";
 
   return (
-    <Button variant="presentation" size="presentation" type="button" onClick={onClick} aria-label={title} className="home-service group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-right shadow-sm transition hover:shadow-md lg:flex-row-reverse lg:items-stretch">
-      <span data-photo-frame className="home-service-photo block aspect-[16/9] w-full overflow-hidden bg-muted lg:aspect-auto lg:w-[52%] lg:shrink-0"><img data-photo src={image} alt={title} loading="eager" decoding="async" width={1280} height={720} className="size-full object-cover transition duration-500 group-hover:scale-[1.03]" /></span>
-      <span className="home-service-body relative flex flex-1 flex-col px-2 pb-2 pt-7 text-center lg:items-start lg:py-4 lg:!ps-[80px] lg:!pe-4 lg:text-right">
-        <span className={`absolute -top-5 right-1/2 grid size-10 translate-x-1/2 place-items-center rounded-full border-2 border-card shadow-md lg:right-4 lg:top-4 lg:size-12 lg:translate-x-0 ${circle} [&_svg]:size-5 lg:[&_svg]:size-6`}>{icon}</span>
-        <span className="home-service-title font-black text-navy lg:text-xl">{title}</span>
-        <span className="home-service-description mx-auto line-clamp-2 max-w-xs text-muted-foreground lg:mx-0 lg:max-w-none">{description}</span>
-        <span className={`home-service-cta mx-auto mb-0 mt-auto inline-flex w-full items-center justify-center gap-1 rounded-full px-2 py-0.5 text-[10px] font-bold shadow-sm transition group-hover:opacity-90 lg:mx-0 lg:w-full lg:gap-1.5 lg:px-5 lg:py-2 lg:text-[15px] ${btn}`}>
-          <ArrowLeft className="size-3 lg:size-4" />{action}
+    <Button variant="presentation" size="presentation" type="button" onClick={onClick} aria-label={title} data-tone={tone} className="home-service group flex flex-col overflow-hidden rounded-xl border border-border bg-card text-center shadow-sm transition hover:shadow-md">
+      <span data-photo-frame className="home-service-photo block w-full overflow-hidden bg-muted"><img data-photo src={image} alt={title} loading="eager" decoding="async" width={1280} height={720} className="size-full object-cover transition duration-500 group-hover:scale-[1.03]" /></span>
+      <span className="home-service-body relative flex flex-1 flex-col items-center px-3 pb-3 text-center">
+        <span className={`absolute -top-6 right-1/2 grid size-11 translate-x-1/2 place-items-center rounded-full border-2 border-card shadow-md ${circle} [&_svg]:size-5`}>{icon}</span>
+        <span className="home-service-title font-black text-navy">{title}</span>
+        <span className="home-service-description mx-auto w-full line-clamp-2 text-muted-foreground">{description}</span>
+        <span className={`home-service-cta mx-auto mb-0 mt-auto inline-flex w-full items-center justify-center gap-1.5 rounded-full px-4 py-1.5 text-xs font-bold shadow-sm transition group-hover:opacity-90 ${btn}`}>
+          <ArrowLeft className="size-3.5" />{action}
         </span>
-
       </span>
     </Button>
-
   );
-
 }
 
 // مراحل رحلة طلب عرض السعر — مؤشر بصري يوضح للعميل موقعه من المسار
