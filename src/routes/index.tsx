@@ -252,10 +252,10 @@ const NAV_ITEMS = [
 // main: العنصر الذي يُضاء عندما يكون مساره هو النشط (تجنّب إضاءة عنصرين بنفس المسار).
 const SIDEBAR_ITEMS = [
   { label: "الرئيسية", icon: Home, action: "home", main: true },
-  { label: "صمّم منظومتك", icon: Tag, action: "quote", main: true },
-  { label: "الدراسات الهندسية", icon: Grid2X2, action: "energy", main: true },
-  { label: "الأجهزة والمنتجات", icon: Package, action: "products", main: true },
-  { label: "الدعم الفني", icon: Users, action: "support", main: true },
+  { label: "عروض الأسعار", icon: FileText, action: "quote", main: true },
+  { label: "الدراسات", icon: FileCheck2, action: "energy", main: true },
+  { label: "الدعم الفني", icon: Headphones, action: "support", main: true },
+  { label: "المنتجات", icon: LayoutGrid, action: "products", main: true },
 ] as const;
 
 function ActesApp() {
@@ -1426,7 +1426,7 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
         </div>
         <span className="hidden shrink-0 lg:inline-flex [&_svg]:size-6"><NotificationsBell isAdmin={isAdmin} /></span>
         <span aria-hidden className="hidden h-10 w-px bg-border lg:block" />
-        <p className="hidden min-w-0 text-[14px] font-black leading-5 text-navy xl:block">تمكين<br /><span className="text-brand">للحلول التقنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "عميلنا"}</p>
+        <p className="hidden min-w-0 text-[14px] font-black leading-5 text-navy xl:block">تمكين<br /><span className="text-brand">للحلول الفنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "بعملائنا"}</p>
         {isAdmin && (
           <span className="ms-2 hidden shrink-0 items-center gap-1 rounded-full bg-brand px-3 py-1 text-[11px] font-black text-brand-foreground sm:inline-flex" dir="ltr">
             <ShieldCheck className="size-3.5" /> Admin Mode
@@ -1448,7 +1448,7 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
         <span className="lg:hidden [&_svg]:size-5"><NotificationsBell isAdmin={isAdmin} /></span>
         <Button variant="presentation" size="presentation" type="button" onClick={onExit} aria-label="خروج" title="خروج" className="grid size-8 place-items-center rounded-md transition hover:bg-muted lg:hidden"><LogOut className="size-5" /></Button>
         <LangSwitch />
-        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[17px] font-black leading-6 text-navy min-[1900px]:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[14px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
+        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[17px] font-black leading-6 text-navy xl:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[14px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
         <Button variant="presentation" size="presentation" onClick={onToggleSidebar} aria-label={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} title={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} className="hidden size-10 place-items-center rounded-md text-navy lg:grid">
           <Menu className="size-7" />
         </Button>
@@ -1509,8 +1509,8 @@ function AppSidebar({ active, onNavigate, onProducts, onSettings, onExit, collap
         <path d="M0 110 C60 60 120 20 200 10 L200 160 L0 160 Z" fill="currentColor" opacity="0.55" />
         <path d="M0 140 C70 100 130 70 200 60 L200 160 L0 160 Z" fill="currentColor" opacity="0.35" />
       </svg>
-      <div className="relative z-10 mt-auto px-3 pb-4 pt-2">
-        <Button variant="presentation" size="presentation" type="button" onClick={onExit} className="flex w-full flex-row-reverse items-center justify-start gap-3 rounded-lg px-4 py-3 text-[16px] font-bold text-skyline-foreground transition hover:bg-skyline-foreground/10"><LogOut className="size-6 shrink-0" /> <span>تسجيل الخروج</span></Button>
+      <div className="relative z-10 mt-auto px-5 pb-5 pt-2">
+        <p className="flex items-center justify-between gap-2 border-b-2 border-gold pb-2 text-[15px] font-bold text-skyline-foreground"><Leaf className="size-5 text-gold" /> <span>معاً نحو طاقة مستدامة</span></p>
       </div>
     </aside>
   );
@@ -1575,26 +1575,26 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
       </section>
       <section data-photo-section className="home-cover relative shrink-0 overflow-hidden border border-border bg-navy">
         <LangImg ar={homeHeroAr} en={homeHeroEn} zh={homeHeroZh} alt="تمكين للحلول التقنية والهندسية" loading="eager" fetchPriority="high" />
-        <p className="home-cover-tagline absolute right-8 top-1/2 hidden -translate-y-1/2 border-l-4 border-gold pl-4 text-right text-2xl font-black leading-snug text-navy-foreground lg:block">نقدم حلولاً متكاملة<br />للطاقة الشمسية<br />والحلول الهندسية</p>
+        <div className="home-cover-tagline absolute right-8 top-1/2 hidden -translate-y-1/2 text-right lg:block">
+          <p className="text-3xl font-black text-navy-foreground xl:text-4xl">شريكك في</p>
+          <p className="mt-2 text-3xl font-black text-gold xl:text-4xl">حلول الطاقة المتكاملة</p>
+          <p className="mt-3 flex items-center gap-3 text-sm font-bold text-navy-foreground xl:text-base">أنظمة طاقة شمسية <span className="h-4 w-px bg-gold" /> حلول تخزين الطاقة <span className="h-4 w-px bg-gold" /> دعم فني دائم</p>
+        </div>
       </section>
-
-
 
       <PartnersStrip />
 
-
-      <section className="home-services stagger-in grid shrink-0 grid-cols-2 gap-2 lg:grid-cols-2 lg:gap-3">
-        <ServiceCard image={refCardQuote} icon={<FileText />} title="صمّم منظومتك" description="احصل على أفضل التصاميم الهندسية لمشاريعك الشمسية." action="دخول التطبيق" tone="brand" onClick={() => onService("quote")} />
-        <ServiceCard image={refCardEnergy} icon={<Sun />} title="الدراسات الهندسية" description="التصميم الكامل لمشاريع الطاقة الشمسية بأعلى معايير الجودة والكفاءة." action="دخول التطبيق" tone="energy" onClick={() => onService("energy")} />
-        <ServiceCard image={refCardSupport} icon={<Headphones />} title="خدماتنا واستشاراتنا" description="نقدم خدمات متكاملة واستشارات فنية لدعم مشاريعك في كل المراحل." action="تواصل معنا" tone="skyline" onClick={() => onService("support")} />
-        <ServiceCard image={refCardProducts} icon={<Package />} title="الأجهزة والمنتجات" description="مجموعة متكاملة من أفضل الأجهزة والمنتجات الطاقة الشمسية المعتمدة عالمياً." action="استكشف المنتجات" tone="navy" onClick={onProducts} />
+      <section className="home-services stagger-in grid shrink-0 grid-cols-2 gap-2 lg:grid-cols-4 lg:gap-3">
+        <ServiceCard image={refCardQuote} icon={<FileText />} title="طلب عرض سعر" description="احصل على عرض مخصص وفقاً لاحتياجاتك" action="اطلب الآن" tone="brand" onClick={() => onService("quote")} />
+        <ServiceCard image={refCardEnergy} icon={<Grid2X2 />} title="الدراسات الهندسية والتصاميم" description="دراسات دقيقة لحلول الطاقة بأفضل كفاءة وتكلفة" action="عرض الدراسات" tone="energy" onClick={() => onService("energy")} />
+        <ServiceCard image={refCardSupport} icon={<Headphones />} title="الدعم الفني" description="خدمات دعم وصيانة متكاملة لضمان استمرارية عمل أنظمتك" action="تواصل معنا" tone="skyline" onClick={() => onService("support")} />
+        <ServiceCard image={refCardProducts} icon={<Package />} title="المنتجات" description="أحدث تقنيات أنظمة الطاقة الشمسية والمعدات عالية الجودة" action="عرض المنتجات" tone="navy" onClick={onProducts} />
       </section>
 
       <footer className="relative shrink-0 overflow-hidden rounded-xl bg-navy px-3 py-2.5 text-center text-navy-foreground lg:py-4">
         <img src={agricultureImage} alt="" aria-hidden className="absolute inset-0 size-full object-cover opacity-45" />
         <span aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--navy)_55%,transparent),color-mix(in_oklab,var(--navy)_75%,transparent))]" />
-        <p className="relative flex items-center justify-center gap-2 text-base font-black lg:text-xl"><span className="h-px w-8 bg-gold lg:w-14" /><span className="grid size-8 place-items-center rounded-full border-2 border-gold lg:size-10"><Leaf className="size-4 text-gold lg:size-5" /></span> معاً نحو طاقة مستدامة<span className="h-px w-8 bg-gold lg:w-14" /></p>
-        <p className="relative mt-1 text-[11px] opacity-80 lg:text-sm">حلول مبتكرة ... لمستقبل أنظف</p>
+        <p className="relative flex items-center justify-center gap-3 text-base font-black lg:text-xl"><span className="h-px w-10 bg-gold lg:w-24" /><Leaf className="size-6 text-gold" /> طاقة نظيفة .. لمستقبل مستدام<span className="h-px w-10 bg-gold lg:w-24" /></p>
       </footer>
     </div>
   );
