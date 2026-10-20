@@ -27,6 +27,8 @@ import { enterFullscreen, isFullscreen, toggleFullscreen } from "@/lib/fullscree
 import actesSplashLogo from "@/assets/actes-logo-white.webp";
 import startBgMobile from "@/assets/start-bg-mobile.webp";
 import startBgDesktop from "@/assets/start-bg-desktop.webp";
+import startScreenDesktop from "@/assets/screens/start.webp";
+import startScreenMobile from "@/assets/screens/m-start.webp";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   ArrowLeft,
@@ -1031,46 +1033,19 @@ function AccountChoice({ onClient, onAdmin }: { onClient: () => void; onAdmin: (
 }
 
 // شاشة «ابدأ» للمسجل سابقاً: زر واحد فقط
-function StartScreen({ clientName, onStart }: { clientName: string; onStart: () => void }) {
+function StartScreen({ clientName: _clientName, onStart }: { clientName: string; onStart: () => void }) {
+  const frame = (src: string, w: number, h: number, btn: { l: number; t: number; w: number; h: number }, cls: string) => (
+    <div className={`${cls} relative`} style={{ aspectRatio: `${w}/${h}`, width: `min(100vw, calc(100dvh * ${w / h}))` }}>
+      <img src={src} alt="مرحباً بك في نظام تمكين للحلول التقنية والهندسية" width={w} height={h} className="absolute inset-0 size-full select-none" draggable={false} />
+      <button type="button" onClick={onStart} aria-label="ابدأ"
+        className="absolute rounded-full transition active:scale-[0.98] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold"
+        style={{ left: `${btn.l}%`, top: `${btn.t}%`, width: `${btn.w}%`, height: `${btn.h}%` }} />
+    </div>
+  );
   return (
-    <main className="start-screen relative h-dvh w-full overflow-hidden bg-overlay text-navy-foreground" dir="rtl">
-      <img src={startBgMobile} alt="" width={896} height={1600} className="absolute inset-0 size-full object-cover lg:hidden" />
-      <img src={startBgDesktop} alt="" width={1920} height={1088} className="absolute inset-0 hidden size-full object-cover lg:block" />
-      <div className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--overlay)_70%,transparent)_0%,color-mix(in_oklab,var(--overlay)_30%,transparent)_45%,color-mix(in_oklab,var(--overlay)_88%,transparent)_100%)]" />
-
-      <div className="start-screen-content relative z-10 grid h-full place-items-center overflow-hidden px-6 py-6">
-        <div className="flex w-full max-w-lg flex-col items-center text-center">
-          <TamkeenBrand inverse className="start-brand" />
-          <h1 className="mt-6 text-[1.9rem] font-black leading-snug lg:text-5xl">
-            {clientName ? `مرحباً بك، ${clientName}` : <>مرحباً بك في نظام تمكين<br /><span className="text-gold">للحلول التقنية والهندسية</span></>}
-          </h1>
-          <p className="mt-3 max-w-md text-sm leading-7 opacity-80 lg:text-base">
-            صمّم منظومتك واحصل على عرض سعر رسمي ودراسة ومخطط معتمد.
-          </p>
-
-          <div className="start-screen-sectors mt-6 flex flex-nowrap justify-center gap-2">
-            {START_SECTORS.map(({ label, Icon }) => (
-              <span key={label} className="inline-flex shrink-0 items-center gap-2 rounded-full border border-gold bg-overlay/40 px-3 py-2 text-sm font-bold lg:px-4">
-                <Icon className="size-5 text-gold" /> {label}
-              </span>
-            ))}
-          </div>
-
-          <Button variant="presentation" size="presentation"
-            type="button"
-            onClick={onStart}
-            className="start-screen-cta mt-8 inline-flex h-16 w-full max-w-sm items-center justify-center gap-4 rounded-full border-0 bg-brand text-2xl font-black text-brand-foreground shadow-[0_0_32px_color-mix(in_oklab,var(--brand)_60%,transparent)] transition hover:opacity-90 active:scale-[0.99]"
-          >
-            ابدأ <span className="grid size-9 place-items-center rounded-full border-2 border-brand-foreground"><ArrowRight className="size-5" /></span>
-          </Button>
-
-          <div className="mt-8 flex w-full items-center gap-3">
-            <span className="h-px flex-1 bg-gold/60" />
-            <p className="text-[11px] font-semibold opacity-80">تمكين للحلول التقنية والهندسية - جميع الحقوق محفوظة</p>
-            <span className="h-px flex-1 bg-gold/60" />
-          </div>
-        </div>
-      </div>
+    <main className="start-screen grid h-dvh w-full place-items-center overflow-hidden bg-overlay" dir="rtl">
+      {frame(startScreenMobile, 941, 1672, { l: 18.1, t: 67.6, w: 63.6, h: 7.3 }, "lg:hidden")}
+      {frame(startScreenDesktop, 1672, 941, { l: 36.1, t: 65.9, w: 27.9, h: 8.8 }, "hidden lg:block")}
     </main>
   );
 }
