@@ -1421,9 +1421,9 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
       {/* يمين: اللغة وهوية تمكين */}
       <div className="flex min-w-0 items-center gap-2 lg:gap-4">
         <span className="lg:hidden"><TamkeenBrand compact /></span>
-        <span className="hidden lg:inline-flex"><LangSwitch always /></span>
+        <span className="hidden lg:inline-flex"><LangSwitch always compact /></span>
         <span aria-hidden className="hidden h-10 w-px bg-border xl:block" />
-        <p className="hidden min-w-0 text-[14px] font-black leading-5 text-navy xl:block">تمكين <span className="text-brand">للحلول الفنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "بعملائنا"}</p>
+        <p className="hidden min-w-0 whitespace-nowrap text-[14px] font-black leading-5 text-navy xl:block">تمكين <span className="text-brand">للحلول الفنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "بعملائنا"}</p>
         {isAdmin && (
           <span className="ms-2 hidden shrink-0 items-center gap-1 rounded-full bg-brand px-3 py-1 text-[11px] font-black text-brand-foreground sm:inline-flex" dir="ltr">
             <ShieldCheck className="size-3.5" /> Admin Mode
