@@ -436,10 +436,8 @@ button:not(:disabled), a { touch-action: manipulation; }
 .project-option-content { padding:28px 12px 12px; }
 .project-option-content strong { font-size:15px; }
 .project-option-content small { font-size:11px; line-height:1.6; }
-.project-option:last-child { grid-column:1 / -1; display:grid; grid-template-columns:1fr 1fr; }
-.project-option:last-child .project-option-photo { height:100%; min-height:110px; order:2; }
-.project-option:last-child .project-option-icon { bottom:auto; top:-20px; right:auto; left:-20px; transform:none; display:none; }
-.project-option:last-child .project-option-content { justify-content:center; }
+.project-option:last-child:nth-child(odd) { grid-column:1 / -1; }
+.project-option:last-child:nth-child(odd) .project-option-photo { aspect-ratio:2.6; }
 .project-option-icon { border-color:var(--card); background:var(--primary); color:var(--primary-foreground); }
 .catalog-screen { padding-bottom:14px; }
 .catalog-banner { position:relative; overflow:hidden; border-radius:18px; background:var(--navy); color:var(--navy-foreground); min-height:90px; padding:18px 22px; }
@@ -494,8 +492,10 @@ button:not(:disabled), a { touch-action: manipulation; }
  .home-service-title { font-size:16px; }
  .home-service-description { font-size:12px; line-height:1.5; }
  .home-service-cta { font-size:13px; padding:7px 18px; }
- .project-options { grid-template-columns:repeat(4,minmax(0,1fr)); }
- .project-option:last-child { grid-column:1 / -1; max-width:540px; }
+ .project-options { grid-template-columns:repeat(6,minmax(0,1fr)); gap:16px; }
+ .project-option, .project-option:last-child { grid-column:span 2; max-width:none; }
+ .project-option:nth-child(4) { grid-column:2 / span 2; }
+ .project-option:nth-child(4):last-child { grid-column:span 2; }
  .product-card-media { min-height:240px; }
  .product-card-spec-row { font-size:11px; }
  .start-screen .tamkeen-brand > img { height:150px; }
