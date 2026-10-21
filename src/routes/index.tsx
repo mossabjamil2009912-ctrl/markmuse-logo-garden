@@ -1418,12 +1418,12 @@ function BrandMark({ compact = false, className, white = false }: { inverse?: bo
 function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSettings, onExit, onToggleSidebar, sidebarCollapsed }: { isAdmin: boolean; clientName?: string; onExitAdmin: () => void; onSettings: () => void; onExit: () => void; onToggleSidebar: () => void; sidebarCollapsed: boolean; banner?: boolean }) {
   return (
     <header data-banner={banner ? "off" : undefined} className="app-topbar relative grid h-[52px] shrink-0 grid-cols-[minmax(0,1fr)_auto] items-center border-b border-border bg-background px-2 text-navy shadow-[var(--shadow-soft)] sm:h-[62px] sm:px-4 lg:h-[84px] lg:grid-cols-[minmax(0,1fr)_auto_minmax(0,1fr)] lg:gap-4 lg:px-6 [&_button]:!text-navy [&_svg]:!text-navy">
-      {/* يمين: المستخدم والإشعارات وهوية تمكين */}
+      {/* يمين: اللغة وهوية تمكين */}
       <div className="flex min-w-0 items-center gap-2 lg:gap-4">
         <span className="lg:hidden"><TamkeenBrand compact /></span>
-        <span className="hidden shrink-0 lg:inline-flex [&_svg]:size-6"><NotificationsBell isAdmin={isAdmin} /></span>
-        <span aria-hidden className="hidden h-10 w-px bg-border lg:block" />
-        <p className="hidden min-w-0 text-[14px] font-black leading-5 text-navy xl:block">تمكين<br /><span className="text-brand">للحلول الفنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "بعملائنا"}</p>
+        <span className="hidden lg:inline-flex"><LangSwitch always /></span>
+        <span aria-hidden className="hidden h-10 w-px bg-border xl:block" />
+        <p className="hidden min-w-0 text-[14px] font-black leading-5 text-navy xl:block">تمكين <span className="text-brand">للحلول الفنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "بعملائنا"}</p>
         {isAdmin && (
           <span className="ms-2 hidden shrink-0 items-center gap-1 rounded-full bg-brand px-3 py-1 text-[11px] font-black text-brand-foreground sm:inline-flex" dir="ltr">
             <ShieldCheck className="size-3.5" /> Admin Mode
@@ -1432,20 +1432,19 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
       </div>
       {/* الوسط: شعار تمكين */}
       <div className="app-topbar-center hidden justify-center lg:flex"><TamkeenBrand /></div>
-      {/* يسار: الشعار النصي وأدوات الشاشة وزر القائمة */}
-      <div className="flex shrink-0 items-center justify-end gap-0.5 sm:gap-3 lg:min-w-0 lg:overflow-hidden [&_button]:!bg-transparent">
-        <Button variant="presentation" size="presentation" type="button" onClick={onSettings} aria-label="الإعدادات" title="الإعدادات" className="grid size-8 place-items-center rounded-full transition hover:bg-muted lg:hidden"><Settings className="size-5" /></Button>
+      {/* يسار: الأدوات وزر القائمة */}
+      <div className="flex shrink-0 items-center justify-end gap-1 sm:gap-2 lg:gap-3 [&_button]:!bg-transparent">
+        <span className="lg:hidden"><LangSwitch always compact /></span>
+        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[15px] font-black leading-6 text-navy 2xl:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[13px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
         {isAdmin && (
-          <Button variant="presentation" size="presentation" type="button" onClick={onExitAdmin} className="inline-flex items-center gap-2 rounded-md border border-border px-3 py-2 text-xs font-bold text-foreground transition hover:bg-muted" dir="ltr">
+          <Button variant="presentation" size="presentation" type="button" onClick={onExitAdmin} className="hidden items-center gap-2 rounded-md border border-border px-3 py-2 text-xs font-bold text-foreground transition hover:bg-muted sm:inline-flex" dir="ltr">
             <LogOut className="size-4" /> Logout Admin
           </Button>
         )}
+        <span className="[&_svg]:size-5"><OrderCenterButton isAdmin={isAdmin} /></span>
+        <span className="[&_svg]:size-5"><NotificationsBell isAdmin={isAdmin} /></span>
         <ReplayVoiceButton />
-                <span className="[&_svg]:size-5"><OrderCenterButton isAdmin={isAdmin} /></span>
-        <span className="lg:hidden [&_svg]:size-5"><NotificationsBell isAdmin={isAdmin} /></span>
-        <Button variant="presentation" size="presentation" type="button" onClick={onExit} aria-label="خروج" title="خروج" className="grid size-8 place-items-center rounded-md transition hover:bg-muted lg:hidden"><LogOut className="size-5" /></Button>
-        <LangSwitch />
-        <p className="hidden shrink-0 border-x-2 border-gold px-4 text-center text-[17px] font-black leading-6 text-navy xl:block">حلول الطاقة لمستقبل أفضل<br /><span className="text-[14px] font-bold text-navy/80">طاقة مستدامة .. لحياة أكثر ازدهاراً</span></p>
+        <Button variant="presentation" size="presentation" type="button" onClick={onSettings} aria-label="الإعدادات" title="الإعدادات" className="grid size-8 place-items-center rounded-full transition hover:bg-muted lg:hidden"><Settings className="size-5" /></Button>
         <Button variant="presentation" size="presentation" onClick={onToggleSidebar} aria-label={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} title={sidebarCollapsed ? "إظهار القائمة" : "تصغير القائمة"} className="hidden size-10 place-items-center rounded-md text-navy lg:grid">
           <Menu className="size-7" />
         </Button>
@@ -2814,7 +2813,7 @@ function DetailCard({ icon, title, number, rows }: { icon: ReactNode; title: str
 function Documents({ docs }: { docs: View["docs"] }) {
   return <div className="mt-3 grid gap-2 sm:grid-cols-3">{docs.map((doc, index) => <a key={index} href={doc.url || undefined} target="_blank" rel="noreferrer" className="flex items-center gap-2 rounded-md border border-border bg-card p-2.5 transition hover:border-brand"><span className="grid size-8 place-items-center rounded-md bg-brand/10 text-brand"><FileCheck2 className="size-4" /></span><span className="min-w-0 flex-1"><strong className="block truncate text-[11px]">{doc.name}</strong>{doc.caption && <small className="block truncate text-[10px] text-muted-foreground">{doc.caption}</small>}</span><Download className="size-3.5 text-muted-foreground" /></a>)}</div>;
 }
-function LangSwitch({ always = false }: { always?: boolean }) {
+function LangSwitch({ always = false, compact = false }: { always?: boolean; compact?: boolean }) {
   const [lang, setLang] = useLang();
   const languages: { id: Lang; label: string }[] = [
     { id: "ar", label: "العربية" },
