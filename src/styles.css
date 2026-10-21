@@ -410,7 +410,8 @@ button:not(:disabled), a { touch-action: manipulation; }
 .home-service .home-service-description { color:color-mix(in oklab, var(--navy-foreground) 85%, transparent) !important; }
 .home-service .home-service-body > span:first-child { border-color:var(--navy) !important; }
 .home-service .home-service-cta svg { color:var(--navy-foreground) !important; }
-.home-cover > img { object-fit:cover; object-position:center; }
+.app-home .home-cover { flex:0 0 auto !important; }
+.app-home .home-cover > img { height:auto !important; aspect-ratio:1132/181 !important; object-fit:cover; }
 .home-footer-ref > img { aspect-ratio:1132/61; }
 .app-home > footer.home-footer-ref { padding:0 !important; }
 .home-partners { border-radius:6px; box-shadow:none; }
