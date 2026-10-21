@@ -621,3 +621,14 @@ button:not(:disabled), a { touch-action: manipulation; }
  .topbar-banner-tools { position:absolute; left:250px; top:74px; z-index:3; display:flex; flex-direction:row-reverse; gap:6px; align-items:center; }
 }
 body:has([data-image-screen]) .app-bottom-nav { display:none; }
+
+/* Systems cards: compact, equal size, 3 + 2 centered */
+.project-options { grid-template-columns:repeat(6,minmax(0,1fr)) !important; gap:10px !important; max-width:620px; margin-inline:auto; }
+.project-option, .project-option:last-child, .project-option:last-child:nth-child(odd) { grid-column:span 2 !important; max-width:none; }
+.project-option:nth-child(4) { grid-column:2 / span 2 !important; }
+.project-option-photo, .project-option:last-child:nth-child(odd) .project-option-photo { aspect-ratio:1.7 !important; }
+.project-option-content { padding:18px 6px 8px !important; }
+.project-option-content strong { font-size:12px !important; }
+.project-option-content small { font-size:9.5px !important; line-height:1.5; }
+.project-option-icon { width:30px !important; height:30px !important; bottom:-15px !important; }
+.project-option-icon svg { width:15px; height:15px; }
