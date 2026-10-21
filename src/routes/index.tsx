@@ -102,6 +102,8 @@ import refCardQuote from "@/assets/card-quote.webp";
 import refCardEnergy from "@/assets/card-energy.webp";
 import refCardSupport from "@/assets/card-support.webp";
 import refCardProducts from "@/assets/card-products.webp";
+import homeBannerRef from "@/assets/home-banner-ref.webp";
+import homeFooterRef from "@/assets/home-footer-ref.webp";
 import ProductsCatalog from "@/components/products-catalog";
 
 import appIcon from "@/assets/arsh-app-icon.webp";
@@ -1419,11 +1421,6 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
       {/* يمين: المستخدم والإشعارات وهوية تمكين */}
       <div className="flex min-w-0 items-center gap-2 lg:gap-4">
         <span className="lg:hidden"><TamkeenBrand compact /></span>
-        <div className="hidden shrink-0 items-center gap-2 lg:flex">
-          <span className="grid size-11 place-items-center rounded-full bg-navy"><UserCircle className="size-7 !text-navy-foreground" /></span>
-          <p className="text-[13px] font-black leading-5 text-navy">أهلاً وسهلاً<br /><span className="text-[12px] font-bold text-navy">{isAdmin ? "الإدارة" : clientName || "مستخدم تجريبي"}</span></p>
-          <ChevronDown className="size-4" />
-        </div>
         <span className="hidden shrink-0 lg:inline-flex [&_svg]:size-6"><NotificationsBell isAdmin={isAdmin} /></span>
         <span aria-hidden className="hidden h-10 w-px bg-border lg:block" />
         <p className="hidden min-w-0 text-[14px] font-black leading-5 text-navy xl:block">تمكين<br /><span className="text-brand">للحلول الفنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "بعملائنا"}</p>
@@ -1497,7 +1494,7 @@ function AppSidebar({ active, onNavigate, onProducts, onSettings, onExit, collap
               type="button"
               onClick={() => (item.action === "products" ? onProducts() : onNavigate(item.action))}
               aria-current={selected ? "page" : undefined}
-              className={selected ? "flex w-full flex-row-reverse items-center justify-start gap-3 rounded-lg bg-brand px-4 py-3 text-left text-[16px] font-bold text-brand-foreground shadow-md" : row}
+              className={selected ? "flex w-full flex-row-reverse items-center justify-start gap-3 rounded-lg border-l-4 border-gold bg-[linear-gradient(90deg,color-mix(in_oklab,var(--skyline-foreground)_22%,transparent),color-mix(in_oklab,var(--skyline-foreground)_8%,transparent))] px-4 py-3 text-left text-[16px] font-bold text-gold shadow-[0_0_14px_color-mix(in_oklab,var(--gold)_30%,transparent)] [&_svg]:text-gold" : row}
             >
               <Icon className="size-6 shrink-0" /> <span className="whitespace-nowrap">{item.label}</span>
             </Button>
@@ -1574,12 +1571,7 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
         </div>
       </section>
       <section data-photo-section className="home-cover relative shrink-0 overflow-hidden border border-border bg-navy">
-        <LangImg ar={homeHeroAr} en={homeHeroEn} zh={homeHeroZh} alt="تمكين للحلول التقنية والهندسية" loading="eager" fetchPriority="high" />
-        <div className="home-cover-tagline absolute right-8 top-1/2 hidden -translate-y-1/2 text-right lg:block">
-          <p className="text-3xl font-black text-navy-foreground xl:text-4xl">شريكك في</p>
-          <p className="mt-2 text-3xl font-black text-gold xl:text-4xl">حلول الطاقة المتكاملة</p>
-          <p className="mt-3 flex items-center gap-3 text-sm font-bold text-navy-foreground xl:text-base">أنظمة طاقة شمسية <span className="h-4 w-px bg-gold" /> حلول تخزين الطاقة <span className="h-4 w-px bg-gold" /> دعم فني دائم</p>
-        </div>
+        <img src={homeBannerRef} alt="شريكك في حلول الطاقة المتكاملة — أنظمة طاقة شمسية | حلول تخزين الطاقة | دعم فني دائم" loading="eager" fetchPriority="high" />
       </section>
 
       <PartnersStrip />
@@ -1591,10 +1583,8 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
         <ServiceCard image={refCardProducts} icon={<Package />} title="المنتجات" description="أحدث تقنيات أنظمة الطاقة الشمسية والمعدات عالية الجودة" action="عرض المنتجات" tone="navy" onClick={onProducts} />
       </section>
 
-      <footer className="relative shrink-0 overflow-hidden rounded-xl bg-navy px-3 py-2.5 text-center text-navy-foreground lg:py-4">
-        <img src={agricultureImage} alt="" aria-hidden className="absolute inset-0 size-full object-cover opacity-45" />
-        <span aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--navy)_55%,transparent),color-mix(in_oklab,var(--navy)_75%,transparent))]" />
-        <p className="relative flex items-center justify-center gap-3 text-base font-black lg:text-xl"><span className="h-px w-10 bg-gold lg:w-24" /><Leaf className="size-6 text-gold" /> طاقة نظيفة .. لمستقبل مستدام<span className="h-px w-10 bg-gold lg:w-24" /></p>
+      <footer className="home-footer-ref relative shrink-0 overflow-hidden rounded-xl bg-navy">
+        <img src={homeFooterRef} alt="طاقة نظيفة .. لمستقبل مستدام" className="block h-full w-full object-cover" />
       </footer>
     </div>
   );

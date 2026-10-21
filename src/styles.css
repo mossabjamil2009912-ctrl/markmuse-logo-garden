@@ -404,6 +404,16 @@ button:not(:disabled), a { touch-action: manipulation; }
 .home-service-title { font-size:14px; font-weight:800; line-height:1.5; }
 .home-service-description { font-size:11px; line-height:1.6; margin:0 0 4px; min-height:35px; }
 .home-service-cta { border:1px solid color-mix(in oklab, var(--gold) 70%, transparent); background:transparent; color:var(--navy); font-size:11px; padding:5px 14px; border-radius:20px; }
+/* مطابقة التصميم: جسم البطاقة كحلي بنص أبيض */
+.home-service { background:var(--navy) !important; border-color:color-mix(in oklab, var(--navy) 80%, transparent) !important; }
+.home-service .home-service-title, .home-service .home-service-cta { color:var(--navy-foreground) !important; }
+.home-service .home-service-description { color:color-mix(in oklab, var(--navy-foreground) 85%, transparent) !important; }
+.home-service .home-service-body > span:first-child { border-color:var(--navy) !important; }
+.home-service .home-service-cta svg { color:var(--navy-foreground) !important; }
+.app-home .home-cover { flex:0 0 auto !important; }
+.app-home .home-cover > img { height:auto !important; aspect-ratio:1132/181 !important; object-fit:fill !important; max-height:none !important; }
+.home-footer-ref > img { aspect-ratio:1132/61; }
+.app-home > footer.home-footer-ref { padding:0 !important; }
 .home-partners { border-radius:6px; box-shadow:none; }
 .start-screen-content { padding-top:40px; padding-bottom:30px; }
 .start-screen .tamkeen-brand { margin-bottom:4px; }
