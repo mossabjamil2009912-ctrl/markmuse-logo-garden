@@ -102,6 +102,8 @@ import refCardQuote from "@/assets/card-quote.webp";
 import refCardEnergy from "@/assets/card-energy.webp";
 import refCardSupport from "@/assets/card-support.webp";
 import refCardProducts from "@/assets/card-products.webp";
+import homeBannerRef from "@/assets/home-banner-ref.webp";
+import homeFooterRef from "@/assets/home-footer-ref.webp";
 import ProductsCatalog from "@/components/products-catalog";
 
 import appIcon from "@/assets/arsh-app-icon.webp";
@@ -1574,12 +1576,7 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
         </div>
       </section>
       <section data-photo-section className="home-cover relative shrink-0 overflow-hidden border border-border bg-navy">
-        <LangImg ar={homeHeroAr} en={homeHeroEn} zh={homeHeroZh} alt="تمكين للحلول التقنية والهندسية" loading="eager" fetchPriority="high" />
-        <div className="home-cover-tagline absolute right-8 top-1/2 hidden -translate-y-1/2 text-right lg:block">
-          <p className="text-3xl font-black text-navy-foreground xl:text-4xl">شريكك في</p>
-          <p className="mt-2 text-3xl font-black text-gold xl:text-4xl">حلول الطاقة المتكاملة</p>
-          <p className="mt-3 flex items-center gap-3 text-sm font-bold text-navy-foreground xl:text-base">أنظمة طاقة شمسية <span className="h-4 w-px bg-gold" /> حلول تخزين الطاقة <span className="h-4 w-px bg-gold" /> دعم فني دائم</p>
-        </div>
+        <img src={homeBannerRef} alt="شريكك في حلول الطاقة المتكاملة — أنظمة طاقة شمسية | حلول تخزين الطاقة | دعم فني دائم" loading="eager" fetchPriority="high" />
       </section>
 
       <PartnersStrip />
@@ -1591,10 +1588,8 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
         <ServiceCard image={refCardProducts} icon={<Package />} title="المنتجات" description="أحدث تقنيات أنظمة الطاقة الشمسية والمعدات عالية الجودة" action="عرض المنتجات" tone="navy" onClick={onProducts} />
       </section>
 
-      <footer className="relative shrink-0 overflow-hidden rounded-xl bg-navy px-3 py-2.5 text-center text-navy-foreground lg:py-4">
-        <img src={agricultureImage} alt="" aria-hidden className="absolute inset-0 size-full object-cover opacity-45" />
-        <span aria-hidden className="absolute inset-0 bg-[linear-gradient(180deg,color-mix(in_oklab,var(--navy)_55%,transparent),color-mix(in_oklab,var(--navy)_75%,transparent))]" />
-        <p className="relative flex items-center justify-center gap-3 text-base font-black lg:text-xl"><span className="h-px w-10 bg-gold lg:w-24" /><Leaf className="size-6 text-gold" /> طاقة نظيفة .. لمستقبل مستدام<span className="h-px w-10 bg-gold lg:w-24" /></p>
+      <footer className="home-footer-ref relative shrink-0 overflow-hidden rounded-xl bg-navy">
+        <img src={homeFooterRef} alt="طاقة نظيفة .. لمستقبل مستدام" className="block h-full w-full object-cover" />
       </footer>
     </div>
   );
