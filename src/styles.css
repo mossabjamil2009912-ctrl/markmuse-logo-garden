@@ -412,6 +412,7 @@ button:not(:disabled), a { touch-action: manipulation; }
 .home-service .home-service-cta svg { color:var(--navy-foreground) !important; }
 .home-cover > img { object-fit:cover; object-position:center; }
 .home-footer-ref > img { aspect-ratio:1132/61; }
+.app-home > footer.home-footer-ref { padding:0 !important; }
 .home-partners { border-radius:6px; box-shadow:none; }
 .start-screen-content { padding-top:40px; padding-bottom:30px; }
 .start-screen .tamkeen-brand { margin-bottom:4px; }

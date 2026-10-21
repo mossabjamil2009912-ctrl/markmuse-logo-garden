@@ -1421,11 +1421,6 @@ function TopBar({ banner = false, isAdmin, clientName = "", onExitAdmin, onSetti
       {/* يمين: المستخدم والإشعارات وهوية تمكين */}
       <div className="flex min-w-0 items-center gap-2 lg:gap-4">
         <span className="lg:hidden"><TamkeenBrand compact /></span>
-        <div className="hidden shrink-0 items-center gap-2 lg:flex">
-          <span className="grid size-11 place-items-center rounded-full bg-navy"><UserCircle className="size-7 !text-navy-foreground" /></span>
-          <p className="text-[13px] font-black leading-5 text-navy">أهلاً وسهلاً<br /><span className="text-[12px] font-bold text-navy">{isAdmin ? "الإدارة" : clientName || "مستخدم تجريبي"}</span></p>
-          <ChevronDown className="size-4" />
-        </div>
         <span className="hidden shrink-0 lg:inline-flex [&_svg]:size-6"><NotificationsBell isAdmin={isAdmin} /></span>
         <span aria-hidden className="hidden h-10 w-px bg-border lg:block" />
         <p className="hidden min-w-0 text-[14px] font-black leading-5 text-navy xl:block">تمكين<br /><span className="text-brand">للحلول الفنية والهندسية</span><br />مرحباً {isAdmin ? "الإدارة" : "بعملائنا"}</p>
@@ -1499,7 +1494,7 @@ function AppSidebar({ active, onNavigate, onProducts, onSettings, onExit, collap
               type="button"
               onClick={() => (item.action === "products" ? onProducts() : onNavigate(item.action))}
               aria-current={selected ? "page" : undefined}
-              className={selected ? "flex w-full flex-row-reverse items-center justify-start gap-3 rounded-lg bg-brand px-4 py-3 text-left text-[16px] font-bold text-brand-foreground shadow-md" : row}
+              className={selected ? "flex w-full flex-row-reverse items-center justify-start gap-3 rounded-lg border-l-4 border-gold bg-[linear-gradient(90deg,color-mix(in_oklab,var(--skyline-foreground)_22%,transparent),color-mix(in_oklab,var(--skyline-foreground)_8%,transparent))] px-4 py-3 text-left text-[16px] font-bold text-gold shadow-[0_0_14px_color-mix(in_oklab,var(--gold)_30%,transparent)] [&_svg]:text-gold" : row}
             >
               <Icon className="size-6 shrink-0" /> <span className="whitespace-nowrap">{item.label}</span>
             </Button>
