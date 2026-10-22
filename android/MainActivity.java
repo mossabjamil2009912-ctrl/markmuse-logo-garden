@@ -38,8 +38,7 @@ public class MainActivity extends Activity {
         int port=prefs.getInt("port",0);
         if (port==0) { try(ServerSocket socket=new ServerSocket(0,1,InetAddress.getByName("127.0.0.1"))) { port=socket.getLocalPort(); } prefs.edit().putInt("port",port).commit(); }
         origin="http://127.0.0.1:"+port; server=new LocalServer(port); server.start();
-        runOnUiThread(() -> web.loadUrl(origin+"/")); checkUpdates(false);
-        worker.scheduleWithFixedDelay(() -> checkUpdates(false),10,10,TimeUnit.MINUTES);
+        runOnUiThread(() -> web.loadUrl(origin+"/"));
       } catch(Exception e) { runOnUiThread(() -> new AlertDialog.Builder(this).setMessage("تعذر فتح النسخة المحلية. أغلق التطبيق ثم حاول مجددًا.").setPositiveButton("إغلاق",(d,w)->finish()).show()); }
     });
   }
@@ -142,6 +141,8 @@ public class MainActivity extends Activity {
         String host=session.getHeaders().get("host"); if(host==null || !host.equals(origin.substring(7))) return json(403,"{}");
         String path=session.getUri();
         if(path.equals("/desktop-online")) return json(online()?204:503,"{}");
+        if(path.equals("/desktop-update-status")) { boolean available=false; try { String v=new JSONObject(new String(request("/desktop-release.json","GET",null,null).checked(),"UTF-8")).getString("version"); available=v.matches("[a-f0-9]{64}") && !v.equals(active==null?"":active.getName()); } catch(Exception ignored) {} return json(200,"{\"available\":"+available+"}"); }
+        if(path.equals("/desktop-update-apply")) { try { active=ReleaseStore.sync(releases,p -> request(p,"GET",null,null).checked()); return json(200,"{}"); } catch(Exception e) { return json(503,"{}"); } }
         if(path.startsWith("/_serverFn") || path.startsWith("/api/")) {
           String from=session.getHeaders().get("origin"); if(from!=null && !from.equals(origin)) return json(403,"{}");
           Map<String,String> parsed=new HashMap<>(); session.parseBody(parsed); byte[] body=parsed.getOrDefault("postData","").getBytes("UTF-8");
