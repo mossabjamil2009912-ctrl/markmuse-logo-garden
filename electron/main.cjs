@@ -41,6 +41,16 @@ async function serve(request, response) {
   try {
     const url = new URL(request.url, `http://127.0.0.1:${port}`);
     if (url.pathname === '/desktop-online') { response.writeHead(await online() ? 204 : 503, { 'Cache-Control': 'no-store' }); response.end(); return; }
+    if (url.pathname === '/desktop-update-status') {
+      let available = false;
+      try { if (await online()) { const r = await fetch(`${LIVE}/desktop-release.json`, { signal: AbortSignal.timeout(8000), cache: 'no-store' }); const v = (await r.json()).version; available = /^[a-f0-9]{64}$/.test(v) && v !== (activeRelease ? path.basename(activeRelease) : ''); } } catch {}
+      response.writeHead(200, { 'Content-Type': 'application/json', 'Cache-Control': 'no-store' }); response.end(JSON.stringify({ available })); return;
+    }
+    if (url.pathname === '/desktop-update-apply') {
+      try { activeRelease = pendingRelease = await syncRelease(releaseRoot(), LIVE); response.writeHead(200, { 'Cache-Control': 'no-store' }); }
+      catch { response.writeHead(503, { 'Cache-Control': 'no-store' }); }
+      response.end(); return;
+    }
     if (url.pathname === '/desktop-update') { const ok = await online(); if (ok) void checkUpdates(true); response.writeHead(ok ? 202 : 503, { 'Cache-Control': 'no-store' }); response.end(); return; }
     const pathname = decodeURIComponent(url.pathname);
     if (activeRelease && request.method === 'GET' && !pathname.startsWith('/api/') && !pathname.startsWith('/_serverFn')) {
@@ -89,8 +99,6 @@ async function start() {
   win.webContents.on('will-navigate', (event, url) => { if (!url.startsWith(`http://127.0.0.1:${port}/`)) { event.preventDefault(); if (/^https?:\/\//.test(url)) void shell.openExternal(url); } });
   Menu.setApplicationMenu(null);
   await win.loadURL(`http://127.0.0.1:${port}/`);
-  void checkUpdates();
-  setInterval(() => void checkUpdates(), 10 * 60 * 1000);
 }
 if (!app.requestSingleInstanceLock()) app.quit();
 else app.whenReady().then(start).catch(() => { dialog.showErrorBox('تمكين', 'تعذر تشغيل النسخة المحلية. أغلق النسخ الأخرى ثم حاول مجددًا.'); app.quit(); });
