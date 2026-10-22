@@ -14,6 +14,7 @@ import { useEffect, type ReactNode } from "react";
 import appCss from "../styles.css?url";
 import { LanguageRuntime } from "@/lib/i18n";
 import { ClickSoundRuntime } from "@/lib/click-sound";
+import { UpdatePrompt } from "@/components/update-prompt";
 import { reportLovableError } from "../lib/lovable-error-reporting";
 
 function NotFoundComponent() {
@@ -135,6 +136,7 @@ function RootComponent() {
       <Outlet />
       <LanguageRuntime />
       <ClickSoundRuntime />
+      <UpdatePrompt />
     </QueryClientProvider>
   );
 }
