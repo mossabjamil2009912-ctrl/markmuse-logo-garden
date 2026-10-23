@@ -36,3 +36,4 @@
 - Desktop always uses a stable loopback proxy and checksum-verified atomic public release snapshots; this preserves local storage and keeps the latest complete release offline without distributing server secrets.
 - Publish builds emit a public desktop-release.json inventory through tools/desktop-release-plugin.ts; only public media and client assets can enter downloadable snapshots.
 - Android wraps the same public TanStack client in a loopback-only WebView shell, with checksum-verified atomic snapshots and cloud-only API proxying; this preserves the web workflows and offline data without packaging server secrets.
+- Android bundled snapshot is assembled from the live desktop-release.json (all /assets code included) and signed only with the persistent key in Files private metadata. Why: a partial snapshot shows a blank screen, and a new key forces users to uninstall.

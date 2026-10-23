@@ -19,6 +19,11 @@ cp "$APP_ICON" "$OUT/res/drawable/app_icon.png"
 cp -a "$PUBLIC_SNAPSHOT/." "$OUT/assets/web/"
 # Refuse common private/build artifacts before packaging.
 if test -n "$(rg --files --hidden "$OUT/assets" | rg '/(server|node_modules|\.env|\.git)/|\.map$' || true)"; then echo 'Snapshot contains forbidden entries'; exit 1; fi
+# Refuse a snapshot whose start page references missing code/style files (causes a blank white screen).
+for ref in $(grep -oE '(src|href)="/assets/[^"?#]+' "$OUT/assets/web/index.html" | cut -d'"' -f2); do
+  test -f "$OUT/assets/web$ref" || { echo "Snapshot missing $ref"; exit 1; }
+done
+grep -qE 'src="/assets/[^"]+\.js' "$OUT/assets/web/index.html" || { echo 'Snapshot has no app script'; exit 1; }
 javac --release 11 -cp "$PLATFORM:$NANOHTTPD_JAR" -d "$OUT/classes" "$ROOT/MainActivity.java" "$ROOT/ReleaseStore.java"
 jar cf "$OUT/classes.jar" -C "$OUT/classes" .
 "$BT/d8" --min-api 29 --lib "$PLATFORM" --output "$OUT/dex" "$OUT/classes.jar" "$NANOHTTPD_JAR"
