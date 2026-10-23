@@ -6,6 +6,7 @@
 // You can pass additional config via defineConfig({ vite: { ... }, etc... }) if needed.
 import { defineConfig } from "@lovable.dev/vite-tanstack-config";
 import { desktopReleasePlugin } from "./tools/desktop-release-plugin";
+import { legacyWebviewPlugin } from "./tools/legacy-webview";
 
 export default defineConfig({
   tanstackStart: {
@@ -14,7 +15,7 @@ export default defineConfig({
     server: { entry: "server" },
   },
   vite: {
-    plugins: [desktopReleasePlugin()],
+    plugins: [legacyWebviewPlugin(), desktopReleasePlugin()],
     resolve: {
       alias: {
         // qrcode's node entry pulls fs/pngjs and triggers createRequire(import.meta.url)
