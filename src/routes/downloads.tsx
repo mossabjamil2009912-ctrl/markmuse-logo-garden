@@ -1,6 +1,6 @@
 import { TamkeenBrand } from "@/components/tamkeen-brand";
 import windowsAsset from "@/assets/TAMKEEN-Windows-x64-v3.zip.asset.json";
-import androidAsset from "@/assets/TAMKEEN-Android-v2.apk.asset.json";
+import androidAsset from "@/assets/TAMKEEN-Android-v3.apk.asset.json";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/downloads")({
