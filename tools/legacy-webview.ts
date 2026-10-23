@@ -29,9 +29,14 @@ export function flattenLegacyCss(css: string): string {
     }
     out += css[i++];
   }
-  return out.replace(/([{;])\s*([a-z-]+)\s*:([^;{}]*\b\d*\.?\d+[dsl]vh\b[^;{}]*)(?=[;}])/gi, (_m, sep, prop, value) =>
-    `${sep}${prop}:${value.replace(/(\d*\.?\d+)[dsl]vh\b/gi, "$1vh")};${prop}:${value}`,
-  );
+  return out
+    .replace(/([{;])\s*([a-z-]+)\s*:([^;{}]*\b\d*\.?\d+[dsl]vh\b[^;{}]*)(?=[;}])/gi, (_m, sep, prop, value) =>
+      `${sep}${prop}:${value.replace(/(\d*\.?\d+)[dsl]vh\b/gi, "$1vh")};${prop}:${value}`,
+    )
+    // Media range syntax (width>=40rem) needs Chrome 104; rewrite to min-/max- features.
+    .replace(/\(\s*(width|height)\s*(>=|<=|>|<)\s*([^)\s]+)\s*\)/g, (_m, feature, op, value) =>
+      `(${op[0] === ">" ? "min" : "max"}-${feature}:${op.length === 1 ? `calc(${value} ${op === ">" ? "+" : "-"} .02px)` : value})`,
+    );
 }
 
 export function legacyWebviewPlugin(): Plugin {
