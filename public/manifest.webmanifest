@@ -1,19 +1,38 @@
 {
   "id": "/",
-  "name": "TAMKEEN — تمكين للحلول التقنية والهندسية",
-  "short_name": "TAMKEEN",
+  "name": "تمكين للحلول التقنية والهندسية",
+  "short_name": "تمكين",
   "description": "منصة تمكين للحلول التقنية والهندسية لأنظمة الطاقة الشمسية",
   "start_url": "/",
   "scope": "/",
-  "display": "standalone",
-  "orientation": "portrait",
+  "display": "fullscreen",
+  "orientation": "any",
   "dir": "rtl",
   "lang": "ar",
-  "background_color": "#141210",
-  "theme_color": "#141210",
+  "background_color": "#0c2c49",
+  "theme_color": "#0c2c49",
   "icons": [
-    { "src": "/icon-192.png", "sizes": "192x192", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any" },
-    { "src": "/icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "maskable"
+    }
+  ],
+  "display_override": [
+    "fullscreen",
+    "standalone"
   ]
 }

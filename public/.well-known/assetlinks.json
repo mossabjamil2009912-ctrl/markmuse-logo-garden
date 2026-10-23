@@ -1,6 +1,20 @@
 [
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
+    "target": {
+      "namespace": "android_app",
+      "package_name": "tech.tamkeen.app",
+      "sha256_cert_fingerprints": [
+        "F1:86:47:E8:67:F0:6C:B6:60:B5:65:75:36:76:B7:A1:52:73:FB:2E:53:B8:50:24:2C:A9:D6:34:A9:A1:07:95"
+      ]
+    }
+  },
+  {
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "tech.actes.app",
@@ -11,7 +25,9 @@
     }
   },
   {
-    "relation": ["delegate_permission/common.handle_all_urls"],
+    "relation": [
+      "delegate_permission/common.handle_all_urls"
+    ],
     "target": {
       "namespace": "android_app",
       "package_name": "app.lovable.friendly_data_feeder.twa",
