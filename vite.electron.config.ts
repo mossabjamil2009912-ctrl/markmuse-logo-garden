@@ -7,6 +7,7 @@ import viteReact from "@vitejs/plugin-react";
 import { nitro } from "nitro/vite";
 import { defineConfig } from "vite";
 import tsConfigPaths from "vite-tsconfig-paths";
+import { legacyWebviewPlugin } from "./tools/legacy-webview";
 
 export default defineConfig({
   // Separate client output avoids copying the server/public tree back into itself.
@@ -23,6 +24,7 @@ export default defineConfig({
     dedupe: ["react", "react-dom", "@tanstack/react-router", "@tanstack/react-start"],
   },
   plugins: [
+    legacyWebviewPlugin(),
     tsConfigPaths({ projects: ["./tsconfig.json"] }),
     tailwindcss(),
     tanstackStart({ server: { entry: "server" } }),

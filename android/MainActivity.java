@@ -30,11 +30,22 @@ public class MainActivity extends Activity {
 
   @Override public void onCreate(Bundle state) {
     super.onCreate(state); prefs=getSharedPreferences("tamkeen",MODE_PRIVATE); releases=new File(getFilesDir(),"releases");
-    web=new WebView(this); setContentView(web); configure(web);
+    WebView.setWebContentsDebuggingEnabled(true); web=new WebView(this); setContentView(web); configure(web);
     worker.execute(() -> {
       try {
         active=ReleaseStore.current(releases);
-        if (active==null) { active=new File(getFilesDir(),"bundled"); if (!new File(active,"index.html").isFile()) copyAssets("web",active); }
+        if (active==null) {
+          // Re-extract bundled files after every install/upgrade so stale or partial copies never survive.
+          active=new File(getFilesDir(),"bundled"); File marker=new File(active,".installed");
+          String stamp=String.valueOf(getPackageManager().getPackageInfo(getPackageName(),0).lastUpdateTime);
+          String have=marker.isFile()?new String(Files.readAllBytes(marker.toPath()),"UTF-8"):"";
+          if (!stamp.equals(have) || !new File(active,"index.html").isFile()) {
+            File staging=new File(getFilesDir(),"bundled-staging"); deleteTree(staging); copyAssets("web",staging);
+            if (!new File(staging,"index.html").isFile()) throw new IOException("bundle");
+            deleteTree(active); if(!staging.renameTo(active)) throw new IOException("rename");
+            Files.write(marker.toPath(),stamp.getBytes("UTF-8"));
+          }
+        }
         int port=prefs.getInt("port",0);
         if (port==0) { try(ServerSocket socket=new ServerSocket(0,1,InetAddress.getByName("127.0.0.1"))) { port=socket.getLocalPort(); } prefs.edit().putInt("port",port).commit(); }
         origin="http://127.0.0.1:"+port; server=new LocalServer(port); server.start();
@@ -42,6 +53,13 @@ public class MainActivity extends Activity {
       } catch(Exception e) { runOnUiThread(() -> new AlertDialog.Builder(this).setMessage("تعذر فتح النسخة المحلية. أغلق التطبيق ثم حاول مجددًا.").setPositiveButton("إغلاق",(d,w)->finish()).show()); }
     });
   }
+  // NanoHTTPD's built-in type table is not packaged into the APK, so every type must be explicit
+  // (a stylesheet served as application/octet-stream is rejected and the screen stays blank).
+  static final Map<String,String> MIME=new HashMap<>();
+  static { String[] t={"html","text/html; charset=utf-8","js","text/javascript","mjs","text/javascript","css","text/css","json","application/json","webmanifest","application/manifest+json","svg","image/svg+xml","png","image/png","jpg","image/jpeg","jpeg","image/jpeg","webp","image/webp","gif","image/gif","ico","image/x-icon","avif","image/avif","woff2","font/woff2","woff","font/woff","ttf","font/ttf","otf","font/otf","mp3","audio/mpeg","ogg","audio/ogg","opus","audio/ogg","wav","audio/wav","m4a","audio/mp4","mp4","video/mp4","webm","video/webm","pdf","application/pdf","txt","text/plain; charset=utf-8","xml","application/xml","wasm","application/wasm"}; for(int i=0;i<t.length;i+=2) MIME.put(t[i],t[i+1]); }
+  static String mimeFor(String name) { int dot=name.lastIndexOf('.'); String type=dot<0?null:MIME.get(name.substring(dot+1).toLowerCase(Locale.ROOT)); return type==null?"application/octet-stream":type; }
+  static void deleteTree(File f) { File[] kids=f.listFiles(); if(kids!=null) for(File k:kids) deleteTree(k); f.delete(); }
+  static final String FAIL_PAGE="<html dir=rtl><body style='font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#0c2c49;color:#fff;text-align:center'><div style='padding:24px'><h2>تعذر تشغيل الواجهة</h2><p>أغلق التطبيق وافتحه مجددًا. إن تكرر ذلك، حدّث تطبيق «Android System WebView» من متجر Play.</p><button onclick='location.reload()' style='padding:12px 28px;font-size:16px;border-radius:10px;border:0;background:#d4a83a;color:#0c2c49'>إعادة المحاولة</button></div></body></html>";
   void copyAssets(String path,File target) throws Exception {
     String[] children=getAssets().list(path);
     if (children!=null && children.length>0) { target.mkdirs(); for(String child:children) copyAssets(path+"/"+child,new File(target,child)); }
@@ -59,6 +77,7 @@ public class MainActivity extends Activity {
         external(url); return true;
       }
       @Override public void onPageFinished(WebView v,String url) { if (url.startsWith("http://127.0.0.1:") || url.equals("about:blank") || url.startsWith("blob:")) v.evaluateJavascript(bridgeScript(),null); }
+      @Override public void onReceivedError(WebView v,WebResourceRequest request,WebResourceError error) { if(request.isForMainFrame()) v.loadDataWithBaseURL(null,FAIL_PAGE,"text/html","UTF-8",null); }
     });
     view.setWebChromeClient(new WebChromeClient() {
       @Override public boolean onCreateWindow(WebView v,boolean dialog,boolean user,Message result) {
@@ -77,7 +96,7 @@ public class MainActivity extends Activity {
   }
   android.webkit.ValueCallback<Uri[]> fileCallback;
   @Override protected void onActivityResult(int request,int result,Intent data) { super.onActivityResult(request,result,data); if(request==42 && fileCallback!=null) { fileCallback.onReceiveValue(WebChromeClient.FileChooserParams.parseResult(result,data)); fileCallback=null; } }
-  String bridgeScript() { return "window.print=()=>TamkeenNative.print();if(!window.__tamkeenDownloads){window.__tamkeenDownloads=true;document.addEventListener('click',e=>{let button=e.target.closest('button');if(button&&button.textContent.includes('تحديث التطبيق')){e.preventDefault();e.stopImmediatePropagation();TamkeenNative.update();return}let a=e.target.closest('a[download]');if(a&&a.href.startsWith('blob:')){e.preventDefault();fetch(a.href).then(r=>r.blob()).then(b=>{let f=new FileReader();f.onload=()=>TamkeenNative.save(f.result,b.type,a.download||'TAMKEEN.pdf');f.readAsDataURL(b)})}},true)}"; }
+  String bridgeScript() { return "window.print=()=>TamkeenNative.print();if(!window.__tamkeenGuard){window.__tamkeenGuard=true;window.addEventListener('error',function(e){if(e&&e.message&&/SyntaxError/.test(e.message)&&!window.__tamkeenFailed){window.__tamkeenFailed=true;document.open();document.write("+JSONObject.quote(FAIL_PAGE)+");document.close()}})}if(!window.__tamkeenDownloads){window.__tamkeenDownloads=true;document.addEventListener('click',e=>{let button=e.target.closest('button');if(button&&button.textContent.includes('تحديث التطبيق')){e.preventDefault();e.stopImmediatePropagation();TamkeenNative.update();return}let a=e.target.closest('a[download]');if(a&&a.href.startsWith('blob:')){e.preventDefault();fetch(a.href).then(r=>r.blob()).then(b=>{let f=new FileReader();f.onload=()=>TamkeenNative.save(f.result,b.type,a.download||'TAMKEEN.pdf');f.readAsDataURL(b)})}},true)}"; }
   class Bridge {
     WebView target; Bridge(WebView v) { target=v; }
     @JavascriptInterface public void update() { worker.execute(() -> checkUpdates(true)); }
@@ -161,7 +180,7 @@ public class MainActivity extends Activity {
         File root=active, file=new File(root,path.equals("/")?"index.html":path.substring(1));
         if(!file.getCanonicalPath().startsWith(root.getCanonicalPath()+File.separator)) return json(403,"{}");
         if(!file.isFile()) { if(path.contains(".")) return json(404,"{}"); file=new File(root,"index.html"); }
-        String mime=getMimeTypeForFile(file.getName()); if(file.getName().endsWith(".js")) mime="text/javascript"; if(file.getName().endsWith(".webp")) mime="image/webp"; if(file.getName().endsWith(".woff2")) mime="font/woff2";
+        String mime=mimeFor(file.getName());
         Response response;
         if(file.getName().equals("index.html")) { String html=new String(Files.readAllBytes(file.toPath()),"UTF-8").replace("<head>","<head><script>"+bridgeScript()+"</script>"); response=newFixedLengthResponse(Response.Status.OK,"text/html; charset=utf-8",html); }
         else response=newFixedLengthResponse(Response.Status.OK,mime,new FileInputStream(file),file.length());
