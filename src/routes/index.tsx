@@ -1041,7 +1041,7 @@ function AccountChoice({ onClient, onAdmin }: { onClient: () => void; onAdmin: (
 // شاشة «ابدأ» للمسجل سابقاً: زر واحد فقط
 function StartScreen({ clientName: _clientName, onStart }: { clientName: string; onStart: () => void }) {
   const [lang] = useLang();
-  const shots = lang === "en" ? [startMobileEn, startDesktopEn] : lang === "zh" ? [startMobileZh, startDesktopZh] : [startScreenMobile, startScreenDesktop];
+  const shots: [string, string] = lang === "en" ? [startMobileEn, startDesktopEn] : lang === "zh" ? [startMobileZh, startDesktopZh] : [startScreenMobile, startScreenDesktop];
   const alt = lang === "en" ? "Welcome to TAMKEEN Technical & Engineering Solutions" : lang === "zh" ? "欢迎使用 TAMKEEN 技术与工程解决方案" : "مرحباً بك في نظام تمكين للحلول التقنية والهندسية";
   const startLabel = lang === "en" ? "Start" : lang === "zh" ? "开始" : "ابدأ";
   const frame = (src: string, w: number, h: number, btn: { l: number; t: number; w: number; h: number }, cls: string) => (
