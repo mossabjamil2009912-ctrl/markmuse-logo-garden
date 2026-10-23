@@ -29,6 +29,10 @@ import startBgMobile from "@/assets/start-bg-mobile.webp";
 import startBgDesktop from "@/assets/start-bg-desktop.webp";
 import startScreenDesktop from "@/assets/screens/start.webp";
 import startScreenMobile from "@/assets/screens/m-start.webp";
+import startDesktopEn from "@/assets/screens/start-en.webp";
+import startDesktopZh from "@/assets/screens/start-zh.webp";
+import startMobileEn from "@/assets/screens/m-start-en.webp";
+import startMobileZh from "@/assets/screens/m-start-zh.webp";
 import { useCallback, useEffect, useMemo, useRef, useState, type ReactNode } from "react";
 import {
   ArrowLeft,
@@ -1036,18 +1040,22 @@ function AccountChoice({ onClient, onAdmin }: { onClient: () => void; onAdmin: (
 
 // شاشة «ابدأ» للمسجل سابقاً: زر واحد فقط
 function StartScreen({ clientName: _clientName, onStart }: { clientName: string; onStart: () => void }) {
+  const [lang] = useLang();
+  const shots = lang === "en" ? [startMobileEn, startDesktopEn] : lang === "zh" ? [startMobileZh, startDesktopZh] : [startScreenMobile, startScreenDesktop];
+  const alt = lang === "en" ? "Welcome to TAMKEEN Technical & Engineering Solutions" : lang === "zh" ? "欢迎使用 TAMKEEN 技术与工程解决方案" : "مرحباً بك في نظام تمكين للحلول التقنية والهندسية";
+  const startLabel = lang === "en" ? "Start" : lang === "zh" ? "开始" : "ابدأ";
   const frame = (src: string, w: number, h: number, btn: { l: number; t: number; w: number; h: number }, cls: string) => (
-    <div className={`${cls} relative start-frame`} style={{ ["--r" as string]: String(w / h) }}>
-      <img src={src} alt="مرحباً بك في نظام تمكين للحلول التقنية والهندسية" width={w} height={h} className="absolute inset-0 size-full select-none" draggable={false} />
-      <button type="button" onClick={onStart} aria-label="ابدأ"
+    <div className={`${cls} relative start-frame`} style={{ ["--r" as string]: String(w / h) }} translate="no">
+      <img src={src} alt={alt} width={w} height={h} className="absolute inset-0 size-full select-none" draggable={false} />
+      <button type="button" onClick={onStart} aria-label={startLabel}
         className="absolute rounded-full transition active:scale-[0.98] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold"
         style={{ left: `${btn.l}%`, top: `${btn.t}%`, width: `${btn.w}%`, height: `${btn.h}%` }} />
     </div>
   );
   return (
     <main className="start-screen grid h-dvh w-full place-items-center overflow-hidden bg-overlay" dir="rtl">
-      {frame(startScreenMobile, 941, 1672, { l: 18.1, t: 67.6, w: 63.6, h: 7.3 }, "lg:hidden")}
-      {frame(startScreenDesktop, 1672, 941, { l: 36.1, t: 65.9, w: 27.9, h: 8.8 }, "hidden lg:block")}
+      {frame(shots[0], 941, 1672, { l: 18.1, t: 67.6, w: 63.6, h: 7.3 }, "lg:hidden")}
+      {frame(shots[1], 1672, 941, { l: 36.1, t: 65.9, w: 27.9, h: 8.8 }, "hidden lg:block")}
     </main>
   );
 }
