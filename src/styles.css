@@ -637,6 +637,11 @@ body:has([data-image-screen]) .app-bottom-nav { display:none; }
 .start-frame {
   width: min(100vw, calc(100vh * var(--r)));
   height: min(calc(100vw / var(--r)), 100vh);
-  width: min(100vw, calc(100dvh * var(--r)));
-  height: min(calc(100vw / var(--r)), 100dvh);
+}
+/* var() makes unsupported units fail at use time, so dvh must sit behind @supports. */
+@supports (height: 100dvh) {
+  .start-frame {
+    width: min(100vw, calc(100dvh * var(--r)));
+    height: min(calc(100vw / var(--r)), 100dvh);
+  }
 }
