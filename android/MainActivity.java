@@ -175,7 +175,7 @@ public class MainActivity extends Activity {
         File root=active, file=new File(root,path.equals("/")?"index.html":path.substring(1));
         if(!file.getCanonicalPath().startsWith(root.getCanonicalPath()+File.separator)) return json(403,"{}");
         if(!file.isFile()) { if(path.contains(".")) return json(404,"{}"); file=new File(root,"index.html"); }
-        String mime=getMimeTypeForFile(file.getName()); if(file.getName().endsWith(".js")) mime="text/javascript"; if(file.getName().endsWith(".webp")) mime="image/webp"; if(file.getName().endsWith(".woff2")) mime="font/woff2";
+        String mime=mimeFor(file.getName());
         Response response;
         if(file.getName().equals("index.html")) { String html=new String(Files.readAllBytes(file.toPath()),"UTF-8").replace("<head>","<head><script>"+bridgeScript()+"</script>"); response=newFixedLengthResponse(Response.Status.OK,"text/html; charset=utf-8",html); }
         else response=newFixedLengthResponse(Response.Status.OK,mime,new FileInputStream(file),file.length());
