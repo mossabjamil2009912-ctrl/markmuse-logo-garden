@@ -1,6 +1,6 @@
 import { TamkeenBrand } from "@/components/tamkeen-brand";
 import windowsAsset from "@/assets/TAMKEEN-Windows-x64-v4.zip.asset.json";
-import androidAsset from "@/assets/TAMKEEN-Android-v4.apk.asset.json";
+import androidAsset from "@/assets/TAMKEEN-Android-v6.apk.asset.json";
 import { createFileRoute } from "@tanstack/react-router";
 
 export const Route = createFileRoute("/downloads")({
@@ -46,7 +46,7 @@ function DownloadsPage() {
 
         <div className="grid gap-3">
           <a href={windowsAsset.url} download className="rounded-md bg-primary px-4 py-3 text-center font-bold text-primary-foreground">تحميل نسخة ويندوز (v4)</a>
-          <a href={androidAsset.url} download="TAMKEEN-Android-v4.apk" className="rounded-md border border-border px-4 py-3 text-center font-bold">تحميل نسخة أندرويد (v4)</a>
+          <a href={androidAsset.url} download="TAMKEEN-Android-v6.apk" className="rounded-md border border-border px-4 py-3 text-center font-bold">تحميل نسخة أندرويد (v6 — 3.5 ميجابايت)</a>
         </div>
 
         <p className="text-xs text-muted-foreground mt-6 text-center">
