@@ -632,3 +632,11 @@ body:has([data-image-screen]) .app-bottom-nav { display:none; }
 .project-option-content small { font-size:9.5px !important; line-height:1.5; }
 .project-option-icon { width:30px !important; height:30px !important; bottom:-15px !important; }
 .project-option-icon svg { width:15px; height:15px; }
+
+/* Start image frame: explicit width/height (older Android browsers lack aspect-ratio and dvh). */
+.start-frame {
+  width: min(100vw, calc(100vh * var(--r)));
+  height: min(calc(100vw / var(--r)), 100vh);
+  width: min(100vw, calc(100dvh * var(--r)));
+  height: min(calc(100vw / var(--r)), 100dvh);
+}

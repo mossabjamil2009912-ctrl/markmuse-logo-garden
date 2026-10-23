@@ -1037,7 +1037,7 @@ function AccountChoice({ onClient, onAdmin }: { onClient: () => void; onAdmin: (
 // شاشة «ابدأ» للمسجل سابقاً: زر واحد فقط
 function StartScreen({ clientName: _clientName, onStart }: { clientName: string; onStart: () => void }) {
   const frame = (src: string, w: number, h: number, btn: { l: number; t: number; w: number; h: number }, cls: string) => (
-    <div className={`${cls} relative`} style={{ aspectRatio: `${w}/${h}`, width: `min(100vw, calc(100dvh * ${w / h}))` }}>
+    <div className={`${cls} relative start-frame`} style={{ ["--r" as string]: String(w / h) }}>
       <img src={src} alt="مرحباً بك في نظام تمكين للحلول التقنية والهندسية" width={w} height={h} className="absolute inset-0 size-full select-none" draggable={false} />
       <button type="button" onClick={onStart} aria-label="ابدأ"
         className="absolute rounded-full transition active:scale-[0.98] hover:brightness-110 focus-visible:outline focus-visible:outline-2 focus-visible:outline-gold"
