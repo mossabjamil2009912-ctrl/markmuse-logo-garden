@@ -21,7 +21,7 @@ export default defineConfig({
       desktopReleasePlugin(),
       VitePWA({
         strategies: "generateSW",
-        registerType: "autoUpdate",
+        registerType: "prompt",
         injectRegister: null,
         manifest: false,
         devOptions: { enabled: false },
