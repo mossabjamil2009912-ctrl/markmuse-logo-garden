@@ -85,3 +85,4 @@
 - [x] ترويسة الشاشة الرئيسية: خلفية أزرق/ذهبي معتمدة + شعار تمكين في الوسط (عربي/إنجليزي/صيني)
 - [ ] إعادة بناء حزمة الويندوز الأوفلاين لتشمل الترويسة وخلفيات شاشة البدء الجديدة (الحزمة الحالية Tamkeen-win-v5 أقدم منها)
 - [x] Android PWA app: voice narration must play
+- [x] Review all voice lines in the engineering studies flow

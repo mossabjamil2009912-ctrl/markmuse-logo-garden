@@ -1,4 +1,20 @@
 // The only place the offline service worker is registered (published website / Android app only).
+// A new version installs (fully cached) in the background, then "tamkeen:update-ready" asks the user.
+let waitingWorker: ServiceWorker | null = null;
+
+export function applyOfflineUpdate() {
+  const w = waitingWorker;
+  if (!w) return false;
+  navigator.serviceWorker.addEventListener("controllerchange", () => window.location.reload(), { once: true });
+  w.postMessage({ type: "SKIP_WAITING" });
+  return true;
+}
+
+function announce(w: ServiceWorker) {
+  waitingWorker = w;
+  window.dispatchEvent(new Event("tamkeen:update-ready"));
+}
+
 export function registerOfflineApp() {
   if (typeof window === "undefined" || !("serviceWorker" in navigator)) return;
   const host = window.location.hostname;
@@ -20,5 +36,15 @@ export function registerOfflineApp() {
     ).catch(() => {});
     return;
   }
-  navigator.serviceWorker.register("/sw.js", { scope: "/" }).catch(() => {});
+  navigator.serviceWorker.register("/sw.js", { scope: "/" }).then((reg) => {
+    const hadController = !!navigator.serviceWorker.controller;
+    if (reg.waiting && hadController) announce(reg.waiting);
+    reg.addEventListener("updatefound", () => {
+      const nw = reg.installing;
+      nw?.addEventListener("statechange", () => {
+        if (nw.state === "installed" && navigator.serviceWorker.controller) announce(nw);
+      });
+    });
+    reg.update().catch(() => {});
+  }).catch(() => {});
 }

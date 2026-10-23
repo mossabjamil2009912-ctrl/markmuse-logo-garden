@@ -108,8 +108,8 @@ export const SCRIPTS: Record<string, Script> = {
 
   // ===== دراسة الجدوى الاقتصادية =====
   eco_mode: S("دِرَاسَةُ الجَدْوَى الاقْتِصَادِيَّة. اخْتَرِ البَيَانَاتِ المُتَوَفِّرَةَ لَدَيْك: بَيَانَاتُ الدِّيزِل، أَوْ بَيَانَاتُ الأَحْمَال، أَوْ بَيَانَاتُ مَنْظُومَتِكَ الجَاهِزَة.", "Economic feasibility study. Choose the data you have: diesel data, load data, or your ready system data.", "经济可行性研究。请选择您掌握的数据：柴油数据、负荷数据或现有系统数据。"),
-  eco_diesel_hours: S("اكْتُبِ اسْمَ المَشْرُوع، لِيَظْهَرَ فِي رَأْسِ تَقْرِيرِ الجَدْوَى.", "Type the project name to appear at the top of the feasibility report.", "请输入项目名称，它将显示在可行性报告的抬头。", true),
-  eco_loads_hours: S("اكْتُبِ اسْمَ المَشْرُوع، لِيَظْهَرَ فِي رَأْسِ تَقْرِيرِ الجَدْوَى.", "Type the project name to appear at the top of the feasibility report.", "请输入项目名称，它将显示在可行性报告的抬头。", true),
+  eco_diesel_hours: S("اسْتِهْلَاكُ الدِّيزِلِ السَّاعِيّ. اكْتُبِ اسْمَ المَشْرُوع، ثُمَّ اسْتِهْلَاكَ الدِّيزِلِ بِاللِّتْرِ لِكُلِّ سَاعَةٍ مِنَ السَّاعَاتِ الأَرْبَعِ وَالعِشْرِين.", "Hourly diesel consumption. Type the project name, then the diesel used in litres for each of the 24 hours.", "每小时柴油消耗。请输入项目名称，然后填写24小时中每小时的柴油消耗（升）。", true),
+  eco_loads_hours: S("الأَحْمَالُ السَّاعِيَّة. اكْتُبِ اسْمَ المَشْرُوع، ثُمَّ الحِمْلَ بِالكِيلُووَاطِ لِكُلِّ سَاعَةٍ مِنَ السَّاعَاتِ الأَرْبَعِ وَالعِشْرِين.", "Hourly loads. Type the project name, then the load in kilowatts for each of the 24 hours.", "小时负荷。请输入项目名称，然后填写24小时中每小时的负荷（千瓦）。", true),
   eco_system_hours: S("بَيَانَاتُ المَنْظُومَة. اكْتُبْ مُكَوِّنَاتِ مَنْظُومَتِكَ وَتَكْلِفَتَهَا بِالدُّولَار، لِنَحْسُبَ جَدْوَاهَا الاقْتِصَادِيَّة.", "System data. Enter your system components and cost in dollars so we can calculate its feasibility.", "系统数据。请输入系统组件及美元成本，以计算其经济可行性。", true),
   study_city_gov: S("حَدِّدِ المَوْقِعَ لِاعْتِمَادِ بَيَانَاتِ الإِشْعَاعِ الشَّمْسِيِّ فِي الدِّرَاسَة.", "Select the location so the study uses the right solar data.", "请选择地点，以采用相应的太阳辐射数据。"),
   study_city_sld_gov: S("حَدِّدِ المَوْقِعَ لِتَرْتِيبِ إِجْرَاءَاتِ التَّوْرِيدِ وَالتَّرْكِيب.", "Select the location so we can arrange supply and installation.", "请选择地点，以安排供货与安装。"),
