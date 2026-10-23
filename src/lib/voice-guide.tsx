@@ -18,7 +18,12 @@ export function isVoicePlatform() {
   if (typeof navigator === "undefined") return false;
   if (isOfflineDesktop()) return true;
   const ua = navigator.userAgent || "";
-  if (/Android|iPhone|iPad|iPod|Mobile|wv\)/i.test(ua)) return false;
+  // التطبيق المثبّت على الجوال (أندرويد عبر PWABuilder أو أي تطبيق ملء الشاشة) ينطق دائمًا.
+  if (/Android/i.test(ua)) return true;
+  try {
+    if (matchMedia("(display-mode: fullscreen), (display-mode: standalone)").matches) return true;
+  } catch { /* ignore */ }
+  if (/iPhone|iPad|iPod|Mobile|wv\)/i.test(ua)) return false;
   return true;
 }
 
