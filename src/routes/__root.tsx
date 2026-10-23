@@ -117,6 +117,13 @@ function RootShell({ children }: { children: ReactNode }) {
   return (
     <html lang="ar" dir="rtl">
       <head>
+        {/* Older Android phones (built-in browser < 92) need compatibility helpers before the app starts. */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html:
+              "if(!String.prototype.replaceAll||!Array.prototype.at||!Object.hasOwn||!window.structuredClone||!Array.prototype.findLast)document.write('<script src=\"/polyfills.js\"><\\/script>')",
+          }}
+        />
         <HeadContent />
       </head>
       <body>
