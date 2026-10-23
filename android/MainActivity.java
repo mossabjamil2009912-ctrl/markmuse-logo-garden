@@ -30,7 +30,7 @@ public class MainActivity extends Activity {
 
   @Override public void onCreate(Bundle state) {
     super.onCreate(state); prefs=getSharedPreferences("tamkeen",MODE_PRIVATE); releases=new File(getFilesDir(),"releases");
-    web=new WebView(this); setContentView(web); configure(web);
+    WebView.setWebContentsDebuggingEnabled(true); web=new WebView(this); setContentView(web); configure(web);
     worker.execute(() -> {
       try {
         active=ReleaseStore.current(releases);
