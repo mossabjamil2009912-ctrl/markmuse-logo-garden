@@ -6,17 +6,28 @@ import { Button } from "@/components/ui/button";
 export function UpdatePrompt() {
   const [state, setState] = useState<"hidden" | "ask" | "updating" | "failed">("hidden");
 
+  const [web, setWeb] = useState(false);
+
   useEffect(() => {
-    if (window.location.hostname !== "127.0.0.1") return;
-    fetch("/desktop-update-status", { cache: "no-store" })
-      .then((r) => r.json())
-      .then((d: { available?: boolean }) => { if (d.available) setState("ask"); })
-      .catch(() => {});
+    const onReady = () => { setWeb(true); setState("ask"); };
+    window.addEventListener("tamkeen:update-ready", onReady);
+    if (window.location.hostname === "127.0.0.1") {
+      fetch("/desktop-update-status", { cache: "no-store" })
+        .then((r) => r.json())
+        .then((d: { available?: boolean }) => { if (d.available) setState("ask"); })
+        .catch(() => {});
+    }
+    return () => window.removeEventListener("tamkeen:update-ready", onReady);
   }, []);
 
   const update = async () => {
     setState("updating");
     try {
+      if (web) {
+        const { applyOfflineUpdate } = await import("@/lib/pwa-register");
+        if (!applyOfflineUpdate()) throw new Error();
+        return;
+      }
       const res = await fetch("/desktop-update-apply", { method: "POST", cache: "no-store" });
       if (!res.ok) throw new Error();
       window.location.reload();
