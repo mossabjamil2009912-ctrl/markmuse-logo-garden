@@ -53,6 +53,11 @@ public class MainActivity extends Activity {
       } catch(Exception e) { runOnUiThread(() -> new AlertDialog.Builder(this).setMessage("تعذر فتح النسخة المحلية. أغلق التطبيق ثم حاول مجددًا.").setPositiveButton("إغلاق",(d,w)->finish()).show()); }
     });
   }
+  // NanoHTTPD's built-in type table is not packaged into the APK, so every type must be explicit
+  // (a stylesheet served as application/octet-stream is rejected and the screen stays blank).
+  static final Map<String,String> MIME=new HashMap<>();
+  static { String[] t={"html","text/html; charset=utf-8","js","text/javascript","mjs","text/javascript","css","text/css","json","application/json","webmanifest","application/manifest+json","svg","image/svg+xml","png","image/png","jpg","image/jpeg","jpeg","image/jpeg","webp","image/webp","gif","image/gif","ico","image/x-icon","avif","image/avif","woff2","font/woff2","woff","font/woff","ttf","font/ttf","otf","font/otf","mp3","audio/mpeg","ogg","audio/ogg","opus","audio/ogg","wav","audio/wav","m4a","audio/mp4","mp4","video/mp4","webm","video/webm","pdf","application/pdf","txt","text/plain; charset=utf-8","xml","application/xml","wasm","application/wasm"}; for(int i=0;i<t.length;i+=2) MIME.put(t[i],t[i+1]); }
+  static String mimeFor(String name) { int dot=name.lastIndexOf('.'); String type=dot<0?null:MIME.get(name.substring(dot+1).toLowerCase(Locale.ROOT)); return type==null?"application/octet-stream":type; }
   static void deleteTree(File f) { File[] kids=f.listFiles(); if(kids!=null) for(File k:kids) deleteTree(k); f.delete(); }
   static final String FAIL_PAGE="<html dir=rtl><body style='font-family:sans-serif;display:flex;align-items:center;justify-content:center;height:100vh;margin:0;background:#0c2c49;color:#fff;text-align:center'><div style='padding:24px'><h2>تعذر تشغيل الواجهة</h2><p>أغلق التطبيق وافتحه مجددًا. إن تكرر ذلك، حدّث تطبيق «Android System WebView» من متجر Play.</p><button onclick='location.reload()' style='padding:12px 28px;font-size:16px;border-radius:10px;border:0;background:#d4a83a;color:#0c2c49'>إعادة المحاولة</button></div></body></html>";
   void copyAssets(String path,File target) throws Exception {
