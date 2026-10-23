@@ -3,7 +3,8 @@ import { existsSync, readdirSync, readFileSync, statSync, writeFileSync } from "
 import { join } from "node:path";
 import type { Plugin } from "vite";
 
-/** Publish a checksum inventory of public files, never server code or secrets. */
+/** Publish a checksum inventory of public files, never server code or secrets.
+ * Catalog PDFs stay online-only: offline viewers use the pre-rendered page images. */
 export function desktopReleasePlugin(): Plugin {
   return {
     name: "tamkeen-desktop-release",
@@ -20,7 +21,7 @@ export function desktopReleasePlugin(): Plugin {
             const rel = relative ? `${relative}/${name}` : name;
             const full = join(root, rel);
             if (statSync(full).isDirectory()) scan(root, rel);
-            else if (!rel.endsWith(".map") && !rel.startsWith(".") && rel !== "desktop-release.json") {
+            else if (!rel.endsWith(".map") && !rel.startsWith(".") && rel !== "desktop-release.json" && !/^catalogs\/.*\.pdf$/i.test(rel)) {
               const bytes = readFileSync(full);
               files.set(`/${rel}`, { path: `/${rel}`, sha256: createHash("sha256").update(bytes).digest("hex"), size: bytes.length });
             }
