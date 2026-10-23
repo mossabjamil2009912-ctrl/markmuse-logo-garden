@@ -136,6 +136,9 @@ function RootShell({ children }: { children: ReactNode }) {
 
 function RootComponent() {
   const { queryClient } = Route.useRouteContext();
+  useEffect(() => {
+    import("@/lib/pwa-register").then((m) => m.registerOfflineApp());
+  }, []);
 
   return (
     <QueryClientProvider client={queryClient}>
