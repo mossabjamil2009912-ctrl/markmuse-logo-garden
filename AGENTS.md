@@ -35,5 +35,6 @@
 - Keep the existing workflow state machine and API routes intact; visual screen variants use data-screen and shared semantic tokens, so presentation changes cannot mutate engineering or order data.
 - Desktop always uses a stable loopback proxy and checksum-verified atomic public release snapshots; this preserves local storage and keeps the latest complete release offline without distributing server secrets.
 - Publish builds emit a public desktop-release.json inventory through tools/desktop-release-plugin.ts; only public media and client assets can enter downloadable snapshots.
-- Android wraps the same public TanStack client in a loopback-only WebView shell, with checksum-verified atomic snapshots and cloud-only API proxying; this preserves the web workflows and offline data without packaging server secrets.
-- Android bundled snapshot is assembled from the live desktop-release.json (all /assets code included) and signed only with the persistent key in Files private metadata. Why: a partial snapshot shows a blank screen, and a new key forces users to uninstall.
+
+- Android app is a PWABuilder TWA (package tech.tamkeen.app) of the published site, signed with the persistent key in Files private metadata and linked via public/.well-known/assetlinks.json. Why: modern Chrome engine avoids old-WebView white screens; same key keeps upgrades installable.
+- Offline web support uses vite-plugin-pwa generateSW written to dist/client, registered only from src/lib/pwa-register.ts on the published host. Why: never caches preview/dev or the desktop loopback shell.
