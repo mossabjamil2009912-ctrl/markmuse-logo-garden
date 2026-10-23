@@ -1,0 +1,26 @@
+// Features newer than Chrome 74 used by app code or libraries (built into public/polyfills.js).
+import "core-js/stable/string/replace-all";
+import "core-js/stable/string/match-all";
+import "core-js/stable/string/at";
+import "core-js/stable/array/at";
+import "core-js/stable/array/flat";
+import "core-js/stable/array/flat-map";
+import "core-js/stable/array/find-last";
+import "core-js/stable/array/find-last-index";
+import "core-js/stable/array/to-sorted";
+import "core-js/stable/array/to-reversed";
+import "core-js/stable/array/to-spliced";
+import "core-js/stable/array/with";
+import "core-js/stable/typed-array/at";
+import "core-js/stable/object/has-own";
+import "core-js/stable/object/from-entries";
+import "core-js/stable/object/group-by";
+import "core-js/stable/map/group-by";
+import "core-js/stable/promise/all-settled";
+import "core-js/stable/promise/any";
+import "core-js/stable/promise/with-resolvers";
+import "core-js/stable/aggregate-error";
+import "core-js/stable/global-this";
+import "core-js/stable/structured-clone";
+import "core-js/stable/queue-microtask";
+import "core-js/stable/set";
