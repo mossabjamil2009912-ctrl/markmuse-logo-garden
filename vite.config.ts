@@ -27,7 +27,6 @@ export default defineConfig({
         devOptions: { enabled: false },
         filename: "sw.js",
         outDir: "dist/client",
-        workboxSourceDir: "dist/client",
         workbox: {
           globPatterns: ["assets/**/*.{js,css,woff2,webp,png,svg}", "fonts/**/*", "polyfills.js", "*.png", "manifest.webmanifest"],
           globIgnores: ["**/*.pdf", "**/*.apk", "**/*.zip"],
