@@ -108,6 +108,10 @@ import refCardSupport from "@/assets/card-support.webp";
 import refCardProducts from "@/assets/card-products.webp";
 import homeBannerRef from "@/assets/home-banner-ref.webp";
 import homeFooterRef from "@/assets/home-footer-ref.webp";
+import homeBannerEn from "@/assets/home-banner-ref-en.webp";
+import homeBannerZh from "@/assets/home-banner-ref-zh.webp";
+import homeFooterEn from "@/assets/home-footer-ref-en.webp";
+import homeFooterZh from "@/assets/home-footer-ref-zh.webp";
 import ProductsCatalog from "@/components/products-catalog";
 
 import appIcon from "@/assets/arsh-app-icon.webp";
@@ -1566,6 +1570,9 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
   useEffect(() => {
     setScreenSpeech("الشاشة الرئيسية لتمكين للحلول التقنية والهندسية. يمكنك طلب عرض سعر، أو استكشاف حلول أنظمة الطاقة، أو التواصل مع الدعم الفني، أو التعرف على منتجاتنا.");
   }, []);
+  const [homeLang] = useLang();
+  const bannerSrc = homeLang === "en" ? homeBannerEn : homeLang === "zh" ? homeBannerZh : homeBannerRef;
+  const footerSrc = homeLang === "en" ? homeFooterEn : homeLang === "zh" ? homeFooterZh : homeFooterRef;
   return (
     <div className="app-home screen-enter flex min-h-0 w-full flex-col gap-2">
       <CorporateHero />
@@ -1578,7 +1585,7 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
         </div>
       </section>
       <section data-photo-section className="home-cover relative shrink-0 overflow-hidden border border-border bg-navy">
-        <img src={homeBannerRef} alt="شريكك في حلول الطاقة المتكاملة — أنظمة طاقة شمسية | حلول تخزين الطاقة | دعم فني دائم" loading="eager" fetchPriority="high" />
+        <img src={bannerSrc} alt="شريكك في حلول الطاقة المتكاملة — أنظمة طاقة شمسية | حلول تخزين الطاقة | دعم فني دائم" loading="eager" fetchPriority="high" />
       </section>
 
       <PartnersStrip />
@@ -1591,7 +1598,7 @@ function HomeDashboard({ onService, onProducts }: { onService: (kind: "quote" | 
       </section>
 
       <footer className="home-footer-ref relative shrink-0 overflow-hidden rounded-xl bg-navy">
-        <img src={homeFooterRef} alt="طاقة نظيفة .. لمستقبل مستدام" className="block h-full w-full object-cover" />
+        <img src={footerSrc} alt="طاقة نظيفة .. لمستقبل مستدام" className="block h-full w-full object-cover" />
       </footer>
     </div>
   );
