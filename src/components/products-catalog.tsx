@@ -9,6 +9,7 @@ import { CATEGORIES, findProduct, matchCompatibleProducts, productsByCategory, q
 import { isVoiceOn, isVoicePlatform, prepareSpeech, silenceNextScreen, speakScreen, speakScreenAfterCurrent, stopSpeaking } from "@/lib/voice-guide";
 import { productBenefitNarration } from "@/lib/product-narration";
 import { officialCatalogUrl } from "@/lib/official-catalogs";
+import { OFFLINE_MESSAGE, requireInternet } from "@/lib/network";
 import { translateText, useLang } from "@/lib/i18n";
 import logoMarkEn from "@/assets/arsh-logo-mark-en.png";
 
@@ -420,9 +421,18 @@ function fileNameOf(file: ProductFile) {
 }
 
 /** تنزيل الملف عبر جلب محتواه أولاً — يعمل داخل تطبيق الويندوز وفي المتصفح. */
+const LIVE_ORIGIN = "https://markmuse-logo-garden.lovable.app";
+function isLocalApp() {
+  return ["127.0.0.1", "localhost"].includes(window.location.hostname) && window.location.port !== "8080";
+}
 async function downloadFile(file: ProductFile) {
+  // ملفات PDF غير مضمّنة في تطبيقي ويندوز/أندرويد — تُجلب من الإنترنت عند الطلب.
+  const url = isLocalApp() && file.url.startsWith("/") ? `${LIVE_ORIGIN}${file.url}` : file.url;
+  if (isLocalApp()) {
+    try { await requireInternet(); } catch { window.alert(OFFLINE_MESSAGE); return; }
+  }
   try {
-    const res = await fetch(file.url);
+    const res = await fetch(url);
     if (!res.ok) throw new Error("fetch failed");
     const blob = await res.blob();
     const href = URL.createObjectURL(blob);
@@ -436,7 +446,7 @@ async function downloadFile(file: ProductFile) {
     setTimeout(() => URL.revokeObjectURL(href), 10000);
   } catch {
     const a = document.createElement("a");
-    a.href = file.url;
+    a.href = url;
     a.download = fileNameOf(file);
     document.body.appendChild(a);
     a.click();
